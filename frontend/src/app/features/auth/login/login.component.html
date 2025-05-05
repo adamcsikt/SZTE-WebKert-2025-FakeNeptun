@@ -1,0 +1,38 @@
+<header>
+   <picture>
+      <img src="/images/neptun-logo.svg" alt="Colored NEPTUN Logo" />
+   </picture>
+</header>
+<main>
+   <div class="login-container">
+      <h1>{{ "LOGIN.TITLE" }}</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="LogIn()">
+         <div class="input-group">
+            <label for="username">{{ "LOGIN.USERNAME" }}</label>
+            <input
+               type="text"
+               id="username"
+               formControlName="username"
+               required
+            />
+         </div>
+         <div class="input-group">
+            <label for="password">{{ "LOGIN.PASSWORD" }}</label>
+            <input
+               type="password"
+               id="password"
+               formControlName="password"
+               required
+            />
+         </div>
+         <button type="submit" [disabled]="loginForm.invalid">
+            {{ "LOGIN.BUTTON" }}
+         </button>
+      </form>
+      <div class="login-footer">
+         <p>{{ "LOGIN.FOOTER" }}</p>
+         <a routerLink="/register">{{ "LOGIN.REGISTER" }}</a>
+         <a routerLink="/forgot-password">{{ "LOGIN.FORGOT_PASSWORD" }}</a>
+      </div>
+   </div>
+</main>

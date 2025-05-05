@@ -1,0 +1,215 @@
+@layer reset, layout, typography, theme, components, utilities;
+
+@layer reset {
+   *,
+   *::before,
+   *::after {
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+   }
+
+   html,
+   body {
+      color-scheme: light;
+      min-height: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-size: 22px;
+
+      @media (width < 1500px) {
+         font-size: 20px;
+      }
+
+      @media (width < 1290px) {
+         font-size: 18px;
+      }
+
+      @media (width < 480px) {
+         font-size: 16px;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+         scroll-behavior: smooth;
+      }
+   }
+
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6 {
+      text-wrap: balance;
+   }
+
+   p {
+      line-height: 1.5;
+      text-wrap: pretty;
+   }
+
+   h1 {
+      font-size: 2.75rem;
+   }
+
+   h2 {
+      font-size: 2.5rem;
+   }
+
+   h3 {
+      font-size: 1.5rem;
+   }
+
+   h4 {
+      font-size: 1.25rem;
+   }
+
+   @media (width < 770px) {
+      h1 {
+         font-size: 2rem;
+      }
+
+      h2 {
+         font-size: 1.8rem;
+      }
+
+      h3 {
+         font-size: 1.4rem;
+      }
+
+      h4 {
+         font-size: 1rem;
+      }
+   }
+
+   img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: middle;
+      font-style: italic;
+      text-transform: uppercase;
+      background-repeat: no-repeat;
+      background-size: cover;
+      shape-margin: 0.75rem;
+   }
+}
+
+@layer layout {
+   body > app-root {
+      min-height: 100%;
+      display: grid;
+      grid-template-rows: max-content 1fr max-content;
+   }
+}
+
+@layer typography {
+   @font-face {
+      font-family: "Fira Code";
+      src: local("Fira Code"),
+         url("/fonts/Fira Code/FiraCode-Regular.woff2") format("woff2"),
+         url("/fonts/Fira Code/FiraCode-Regular.woff") format("woff"),
+         url("/fonts/Fira Code/FiraCode-Regular.ttf") format("truetype");
+      font-weight: 400;
+   }
+
+   body {
+      font-family: "Fira Code", sans-serif;
+      font-weight: 400;
+   }
+}
+
+@layer components {
+   .snackbar {
+      background-color: var(--_clr-background) !important;
+      border-radius: 100vw !important;
+      border: none !important;
+      margin: 0 1rem 1rem 0 !important;
+      padding: 0.2em !important;
+
+      min-width: fit-content !important;
+      max-width: 90% !important;
+
+      @media (width < 480px) {
+         margin-inline: auto !important;
+      }
+
+      & .mdc-snackbar__surface {
+         min-width: fit-content !important;
+         background-color: transparent !important;
+         box-shadow: none !important;
+      }
+
+      & .mdc-snackbar__label {
+         color: var(--_clr-text) !important;
+         margin: 0 !important;
+
+         font-size: 0.75em !important;
+         font-family: "Fira Code" !important;
+         font-weight: 700 !important;
+      }
+
+      &.mat-mdc-snack-bar-container
+         button.mat-mdc-button.mat-mdc-snack-bar-action:not(:disabled) {
+         background-color: var(--szte-dark-blue) !important;
+         color: var(--_clr-text) !important;
+         border: none !important;
+         border-radius: 100vw !important;
+
+         font-size: 0.5em !important;
+         font-family: "Fira Code" !important;
+         font-weight: bold !important;
+
+         transition: background-color 0.2s ease !important;
+
+         &:where(:hover, :focus-visible) {
+            background-color: var(--szte-blue) !important;
+            color: var(--_clr-text) !important;
+         }
+
+         &:focus-visible {
+            outline: 2px solid var(--szte-blue) !important;
+            outline-offset: 1px !important;
+         }
+      }
+
+      &.success-snackbar {
+         --_clr-background: var(--color-success);
+         --_clr-text: var(--neptun-white);
+      }
+
+      &.error-snackbar {
+         --_clr-background: var(--color-error);
+         --_clr-text: var(--neptun-white);
+      }
+
+      &.warning-snackbar {
+         --_clr-background: var(--color-warning);
+         --_clr-text: var(--neptun-white);
+      }
+
+      &.info-snackbar {
+         --_clr-background: var(--color-info);
+         --_clr-text: var(--neptun-white);
+      }
+   }
+}
+
+@layer theme {
+   :root {
+      --szte-blue: rgb(0 65 136);
+      --szte-dark-blue: rgb(0 40 85);
+      --neptun-white: rgb(255 255 255);
+      --neptun-black: rgb(0 0 0);
+      --neptun-light-gray: rgb(248 249 250);
+      --neptun-gray: rgb(204 204 204);
+      --neptun-dark-gray: rgb(108 117 125);
+      --link-color: var(--szte-blue);
+      --button-background: var(--szte-blue);
+      --button-text: var(--neptun-white);
+      --color-info: rgb(23 162 184);
+      --color-success: rgb(40 167 69);
+      --color-warning: rgb(255 193 7);
+      --color-error: rgb(220 53 69);
+   }
+}
