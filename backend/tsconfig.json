@@ -5,10 +5,12 @@
       "outDir": "./dist",
       "rootDir": "./src",
       "strict": true,
+      "sourceMap": true,
       "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true
    },
+   "compileOnSave": true,
    "include": ["src"],
    "exclude": ["node_modules", "dist"]
 }
