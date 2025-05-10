@@ -1,15 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'; // Import HttpErrorResponse
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { environment as env } from '../../../environments/environment'; // Adjust path if necessary
+import { environment as env } from '../../../environments/environment';
 
-// Import your User interface (adjust path if necessary)
-import { User } from '../models/user.model'; // Assuming user.model.ts is in src/app/models
+import { User } from '../models/user.model';
 
-// Define an interface for the expected login response from your backend
 interface LoginResponse {
    user: User;
    token: string;
