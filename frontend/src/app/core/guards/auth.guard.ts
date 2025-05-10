@@ -4,7 +4,7 @@ import {
    ActivatedRouteSnapshot,
    RouterStateSnapshot,
 } from '@angular/router';
-import { AuthService } from '../services/auth.service'; // Adjust path if necessary
+import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
