@@ -99,7 +99,20 @@
    body > app-root {
       min-height: 100%;
       display: grid;
+      grid-template-columns:
+         [full-width-start] 1fr [content-start] minmax(55ch, 100ch)
+         [content-end] 1fr [full-width-end];
       grid-template-rows: max-content 1fr max-content;
+
+      & > * {
+         grid-column: full-width;
+         display: grid;
+         grid-template-columns: subgrid;
+
+         & > * {
+            grid-column: content;
+         }
+      }
    }
 }
 
@@ -193,6 +206,14 @@
          --_clr-text: var(--neptun-white);
       }
    }
+
+   app-header {
+      box-shadow: 0 0 20px 0px rgb(60 64 72 / 0.2);
+   }
+
+   app-footer {
+      background-color: var(--szte-dark-blue);
+   }
 }
 
 @layer theme {
@@ -201,7 +222,7 @@
       --szte-dark-blue: rgb(0 40 85);
       --neptun-white: rgb(255 255 255);
       --neptun-black: rgb(0 0 0);
-      --neptun-light-gray: rgb(248 249 250);
+      --neptun-light-gray: rgb(242 243 251);
       --neptun-gray: rgb(204 204 204);
       --neptun-dark-gray: rgb(108 117 125);
       --link-color: var(--szte-blue);

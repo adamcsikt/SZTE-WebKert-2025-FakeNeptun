@@ -5,10 +5,11 @@ import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
 import { User } from '../../../core/models/user.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
    selector: 'app-header',
-   imports: [],
+   imports: [RouterLink],
    templateUrl: './header.component.html',
    styleUrl: './header.component.css',
 })
