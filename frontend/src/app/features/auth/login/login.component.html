@@ -8,19 +8,19 @@
    <div class="login-container">
       <form [formGroup]="loginForm" (ngSubmit)="LogIn()">
          <h4>Hallgatói bejelentkezés</h4>
-         <div class="input-group">
+         <label class="input-group" for="username">
             <input
                type="text"
                id="username"
                formControlName="username"
                required
-               placeholder="ABC123"
+               placeholder=""
             />
-            <label for="username">
+            <label>
                {{ LOGIN.USERNAME }}
             </label>
-         </div>
-         <div class="input-group">
+         </label>
+         <label class="input-group" for="password">
             <input
                type="password"
                id="password"
@@ -28,10 +28,10 @@
                required
                placeholder=""
             />
-            <label for="password">
+            <label>
                {{ LOGIN.PASSWORD }}
             </label>
-         </div>
+         </label>
          <button type="submit" [disabled]="loginForm.invalid">
             {{ LOGIN.BUTTON }}
          </button>

@@ -16,18 +16,18 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      font-size: 22px;
+      font-size: 20px;
 
       @media (width < 1500px) {
-         font-size: 20px;
-      }
-
-      @media (width < 1290px) {
          font-size: 18px;
       }
 
-      @media (width < 480px) {
+      @media (width < 1290px) {
          font-size: 16px;
+      }
+
+      @media (width < 480px) {
+         font-size: 14px;
       }
 
       @media (prefers-reduced-motion: no-preference) {
@@ -50,19 +50,19 @@
    }
 
    h1 {
-      font-size: 2.75rem;
+      font-size: 2.25rem;
    }
 
    h2 {
-      font-size: 2.5rem;
+      font-size: 2rem;
    }
 
    h3 {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
    }
 
    h4 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
    }
 
    @media (width < 770px) {
@@ -225,7 +225,7 @@
       --button-background: var(--szte-blue);
       --button-text: var(--neptun-white);
       --color-info: rgb(23 162 184);
-      --color-success: rgb(0 222 164);
+      --color-success: rgb(20 182 84);
       --color-warning: rgb(255 193 7);
       --color-error: rgb(220 53 69);
    }
