@@ -1,8 +1,14 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import {
+   ActivatedRoute,
+   NavigationEnd,
+   Router,
+   RouterOutlet,
+} from '@angular/router';
 
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { HeaderComponent } from './shared/components/header/header.component';
+import { filter, map, mergeMap } from 'rxjs';
 
 @Component({
    selector: 'app-root',
@@ -10,26 +16,30 @@ import { HeaderComponent } from './shared/components/header/header.component';
    templateUrl: './app.component.html',
    styleUrl: './app.component.css',
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+   public showHeader: boolean = true;
 
-// Import the functions you need from the SDKs you need
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-// // TODO: Add SDKs for Firebase products that you want to use
-// // https://firebase.google.com/docs/web/setup#available-libraries
+   constructor(
+      private router: Router,
+      private activatedRoute: ActivatedRoute
+   ) {}
 
-// // Your web app's Firebase configuration
-// // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBEkZX5NfdkSxtvQTXwK_5vq5mSZCva1ww",
-//   authDomain: "szte-webkert-2025-fakeneptun.firebaseapp.com",
-//   projectId: "szte-webkert-2025-fakeneptun",
-//   storageBucket: "szte-webkert-2025-fakeneptun.firebasestorage.app",
-//   messagingSenderId: "62247029771",
-//   appId: "1:62247029771:web:1163180ff784e1f6ec8b0e",
-//   measurementId: "G-086740435Q"
-// };
-
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+   ngOnInit() {
+      this.router.events
+         .pipe(
+            filter((event) => event instanceof NavigationEnd),
+            map(() => this.activatedRoute),
+            map((route) => {
+               while (route.firstChild) {
+                  route = route.firstChild;
+               }
+               return route;
+            }),
+            mergeMap((route) => route.data)
+         )
+         .subscribe((data) => {
+            this.showHeader =
+               data['hideHeader'] === undefined || !data['hideHeader'];
+         });
+   }
+}

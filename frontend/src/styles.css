@@ -99,22 +99,26 @@
    body > app-root {
       min-height: 100%;
       display: grid;
+      grid-template-columns:
+         [full-width-start] 1fr [content-start] minmax(55ch, 100ch)
+         [content-end] 1fr [full-width-end];
       grid-template-rows: max-content 1fr max-content;
+
+      & > * {
+         grid-column: full-width;
+         display: grid;
+         grid-template-columns: subgrid;
+
+         & > * {
+            grid-column: content;
+         }
+      }
    }
 }
 
 @layer typography {
-   @font-face {
-      font-family: "Fira Code";
-      src: local("Fira Code"),
-         url("/fonts/Fira Code/FiraCode-Regular.woff2") format("woff2"),
-         url("/fonts/Fira Code/FiraCode-Regular.woff") format("woff"),
-         url("/fonts/Fira Code/FiraCode-Regular.ttf") format("truetype");
-      font-weight: 400;
-   }
-
    body {
-      font-family: "Fira Code", sans-serif;
+      font-family: "Figtree", sans-serif;
       font-weight: 400;
    }
 }
@@ -193,15 +197,24 @@
          --_clr-text: var(--neptun-white);
       }
    }
+
+   app-header {
+      z-index: 100;
+      box-shadow: 0 0 20px 0px rgb(60 64 72 / 0.2);
+   }
+
+   app-footer {
+      background-color: var(--szte-dark-blue);
+   }
 }
 
 @layer theme {
    :root {
-      --szte-blue: rgb(0 65 136);
+      --szte-blue: rgb(20 105 206);
       --szte-dark-blue: rgb(0 40 85);
       --neptun-white: rgb(255 255 255);
       --neptun-black: rgb(0 0 0);
-      --neptun-light-gray: rgb(248 249 250);
+      --neptun-light-gray: rgb(242 243 251);
       --neptun-gray: rgb(204 204 204);
       --neptun-dark-gray: rgb(108 117 125);
       --link-color: var(--szte-blue);

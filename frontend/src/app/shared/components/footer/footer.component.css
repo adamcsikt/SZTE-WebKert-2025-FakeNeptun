@@ -1,9 +1,9 @@
 footer {
-   background-color: var(--szte-dark-blue);
    display: flex;
    justify-content: space-between;
    align-items: center;
    padding-block: 0.25rem;
+   color: var(--neptun-white);
 
    & div {
       display: flex;

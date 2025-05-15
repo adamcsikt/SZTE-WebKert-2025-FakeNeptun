@@ -1,0 +1,73 @@
+main:has(#banner) {
+   grid-column: full-width;
+   display: grid;
+   grid-template-columns: subgrid;
+   grid-auto-rows: max-content;
+
+   & > * {
+      grid-column: content;
+   }
+
+   & #banner {
+      grid-column: full-width;
+      display: grid;
+      grid-template-columns: subgrid;
+
+      & > * {
+         grid-column: content;
+      }
+   }
+}
+
+#banner {
+   padding-block: 1rem;
+   background-color: var(--neptun-light-gray);
+}
+
+#widgets {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   grid-auto-rows: max-content;
+   column-gap: 1rem;
+   transform: translateY(-0.75rem);
+
+   & .widget-column {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+   }
+
+   & .widget {
+      background-color: var(--neptun-white);
+      box-shadow: 0 0 20px 0px rgb(60 64 72 / 0.2);
+      padding: 0.75rem;
+      border-radius: 0.35rem;
+
+      display: flex;
+      justify-content: space-between;
+
+      & > div[class] {
+         display: flex;
+         align-items: center;
+         gap: 0.5rem;
+
+         &.widget-notification::after {
+            content: url("/icons/caret-down-fill.svg");
+         }
+
+         & .notification {
+            background-color: var(--szte-blue);
+            font-size: 0.65em;
+            font-weight: 650;
+            color: var(--neptun-white);
+            padding-inline: 0.5em;
+            padding-block: 0.1em;
+            border-radius: 1em;
+         }
+      }
+
+      & h4 {
+         margin: 0;
+      }
+   }
+}
