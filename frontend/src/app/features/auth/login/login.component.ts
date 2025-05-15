@@ -12,12 +12,18 @@ import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-login',
-   standalone: true,
    imports: [ReactiveFormsModule, MatButtonModule],
    templateUrl: './login.component.html',
    styleUrl: './login.component.css',
 })
 export class LoginComponent {
+   LOGIN = {
+      TITLE: 'Szegedi Tudományegyetem',
+      USERNAME: 'Azonosító',
+      PASSWORD: 'Jelszó',
+      BUTTON: 'Bejelentkezés',
+   };
+
    loginForm: FormGroup = new FormGroup({
       username: new FormControl(''),
       password: new FormControl(''),

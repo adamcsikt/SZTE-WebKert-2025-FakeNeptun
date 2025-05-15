@@ -1,0 +1,55 @@
+header {
+   padding-block-start: 1rem;
+}
+
+main {
+   padding-block-start: 4rem;
+
+   & .login-container {
+      position: relative;
+      padding-inline-start: 1.75rem;
+      max-width: 25ch;
+
+      & form {
+         display: grid;
+         gap: 1rem;
+
+         & h4 {
+            margin: 0;
+         }
+
+         & .input-group {
+            display: grid;
+
+            & > * {
+               grid-column: 1 / -1;
+               grid-row: 1 / -1;
+            }
+
+            &:has(input:not(:placeholder-shown)) label {
+               display: none;
+            }
+         }
+
+         & button[type="submit"] {
+            background-color: var(--szte-blue);
+            border-radius: 0.5rem;
+            border: none;
+            color: var(--neptun-white);
+            padding-block: 0.5rem;
+            text-align: center;
+            width: 100%;
+         }
+      }
+
+      &::before {
+         content: "";
+         position: absolute;
+         height: 100%;
+         width: 1rem;
+         border-radius: 0 0.5rem 0 0.5rem;
+         background-color: var(--color-success);
+         left: 0;
+      }
+   }
+}
