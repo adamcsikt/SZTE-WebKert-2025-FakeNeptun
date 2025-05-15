@@ -17,6 +17,7 @@ export const routes: Routes = [
             (c) => c.LoginComponent
          ),
       canActivate: [loginGuard],
+      data: { hideHeader: true },
    },
    {
       path: 'register',
@@ -25,6 +26,7 @@ export const routes: Routes = [
             (c) => c.RegisterComponent
          ),
       canActivate: [loginGuard],
+      data: { hideHeader: true },
    },
    {
       path: 'dashboard',

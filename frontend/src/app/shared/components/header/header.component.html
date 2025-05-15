@@ -1,4 +1,4 @@
-<header>
+<header *ngIf="visible">
    <div id="icon-menu-container">
       <a [routerLink]="['/dashboard']">
          <picture>
@@ -26,7 +26,7 @@
          </div>
          <label for="search">
             <picture>
-               <img src="images/search.svg" />
+               <img src="icons/search.svg" />
             </picture>
             <input type="search" placeholder="Search in menu" id="search" />
          </label>
@@ -35,4 +35,9 @@
    <div id="user-menu">
       <button (click)="logout()">LogOut</button>
    </div>
+</header>
+<header *ngIf="!visible">
+   <picture>
+      <img src="/images/neptun-logo.svg" alt="Colored NEPTUN Logo" />
+   </picture>
 </header>
