@@ -1,33 +1,45 @@
+<header>
+   <picture>
+      <img src="/images/neptun-logo.svg" alt="Colored NEPTUN Logo" />
+   </picture>
+</header>
 <main>
+   <h2>{{ LOGIN.TITLE }}</h2>
    <div class="login-container">
-      <h1>{{ "LOGIN.TITLE" }}</h1>
       <form [formGroup]="loginForm" (ngSubmit)="LogIn()">
-         <div class="input-group">
-            <label for="username">{{ "LOGIN.USERNAME" }}</label>
+         <h4>Hallgatói bejelentkezés</h4>
+         <label class="input-group" for="username">
             <input
                type="text"
                id="username"
                formControlName="username"
                required
+               placeholder=""
             />
-         </div>
-         <div class="input-group">
-            <label for="password">{{ "LOGIN.PASSWORD" }}</label>
+            <label>
+               {{ LOGIN.USERNAME }}
+            </label>
+         </label>
+         <label class="input-group" for="password">
             <input
                type="password"
                id="password"
                formControlName="password"
                required
+               placeholder=""
             />
-         </div>
+            <label>
+               {{ LOGIN.PASSWORD }}
+            </label>
+         </label>
          <button type="submit" [disabled]="loginForm.invalid">
-            {{ "LOGIN.BUTTON" }}
+            {{ LOGIN.BUTTON }}
          </button>
       </form>
       <div class="login-footer">
-         <p>{{ "LOGIN.FOOTER" }}</p>
-         <a routerLink="/register">{{ "LOGIN.REGISTER" }}</a>
-         <a routerLink="/forgot-password">{{ "LOGIN.FORGOT_PASSWORD" }}</a>
+         <!-- <p>{{ LOGIN.FOOTER }}</p>
+         <a routerLink="/register">{{ LOGIN.REGISTER }}</a>
+         <a routerLink="/forgot-password">{{ LOGIN.FORGOT_PASSWORD }}</a> -->
       </div>
    </div>
 </main>

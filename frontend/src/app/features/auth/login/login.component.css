@@ -1,0 +1,101 @@
+header {
+   padding-block-start: 1rem;
+}
+
+main {
+   padding-block-start: 4rem;
+
+   & .login-container {
+      position: relative;
+      padding-inline-start: 1.75rem;
+      max-width: 30ch;
+
+      & form {
+         display: grid;
+         gap: 1rem;
+
+         & h4 {
+            margin: 0;
+         }
+
+         & .input-group {
+            display: grid;
+            border: 2px solid var(--szte-dark-blue);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            background-color: var(--neptun-light-gray);
+
+            & input {
+               border: none;
+               background-color: transparent;
+               outline: none;
+               padding: 0;
+               transform: translateY(0.2em);
+               font-size: 0.75rem;
+
+               &:is(:-webkit-autofill, :autofill) {
+                  background-color: transparent;
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: inherit;
+               }
+            }
+
+            & label {
+               font-size: 0.75rem;
+               pointer-events: none;
+               user-select: none;
+               font-weight: 600;
+
+               transition: transform 0.2s ease-in-out,
+                  font-size 0.2s ease-in-out;
+            }
+
+            & > * {
+               grid-column: 1 / -1;
+               grid-row: 1 / -1;
+            }
+
+            &:has(input:not(:placeholder-shown), input:focus-visible) label {
+               font-size: 0.55rem;
+               transform: translateY(-0.9em);
+            }
+         }
+
+         & button[type="submit"] {
+            background-color: var(--szte-blue);
+            border-radius: 0.5rem;
+            border: none;
+            color: var(--neptun-white);
+            padding-block: 0.5rem;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+            font-size: medium;
+            font-weight: bold;
+
+            transition: background-color 0.2s ease-in-out;
+
+            &:is(:hover, :focus-visible) {
+               outline: none;
+               background-color: var(--szte-dark-blue);
+            }
+         }
+      }
+
+      &::before {
+         content: "";
+         position: absolute;
+         height: 100%;
+         width: 1rem;
+         border-radius: 0 0.35rem 0 0.35rem;
+         background-color: rgb(0 222 164);
+         left: 0;
+
+         transition: background-color 0.2s ease-in-out;
+      }
+
+      &:has(input:user-invalid)::before {
+         background-color: var(--color-error);
+      }
+   }
+}
