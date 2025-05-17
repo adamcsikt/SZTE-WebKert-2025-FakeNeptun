@@ -1,27 +1,44 @@
-.language-switcher {
-   width: fit-content;
-   height: fit-content;
-   padding: 0.5rem 1rem;
+.language-button {
+   color: var(--neptun-white);
+   background-color: transparent;
    border-radius: 0.5rem;
-   background-color: whitesmoke;
-   color: var(--neptun-black);
-   user-select: none;
-   cursor: pointer;
+   padding: 0.5rem 1rem;
+   min-width: auto;
+   line-height: normal;
+}
 
-   display: flex;
-   flex-direction: column-reverse;
+.language-button .current-lang-label {
+   margin-right: 8px;
+}
 
-   & .list {
-      display: none;
+.language-button mat-icon {
+   font-size: 1.25rem;
+   height: 1.25rem;
+   width: 1.25rem;
+   vertical-align: middle;
+}
 
-      & button {
-         all: unset;
-      }
+.language-dropdown-menu .mat-mdc-menu-content {
+   background-color: var(--szte-dark-blue);
+   border-radius: 0.5rem;
+}
 
-      &.show {
-         display: flex;
-         flex-direction: column;
-         background-color: red;
-      }
-   }
+.language-dropdown-menu button.mat-mdc-menu-item {
+   color: var(--neptun-white);
+   background-color: transparent;
+}
+
+.language-dropdown-menu button.mat-mdc-menu-item:hover,
+.language-dropdown-menu button.mat-mdc-menu-item.selected-language {
+   background-color: var(--szte-blue);
+}
+
+.mat-mdc-menu-item.selected-language {
+   font-weight: bold;
+   background-color: rgba(255, 255, 255, 0.1);
+}
+
+app-footer .language-button,
+app-footer .language-button mat-icon {
+   color: var(--neptun-white, white);
 }

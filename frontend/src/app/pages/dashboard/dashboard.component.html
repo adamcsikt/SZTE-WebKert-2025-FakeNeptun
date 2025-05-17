@@ -1,7 +1,7 @@
 <main>
    <section id="banner">
       <picture></picture>
-      <h3>Tisztelt {{ dashboard.user.name }}!</h3>
+      <h3>{{ "DASHBOARD_GREETING" | translate }} Adamcsik Tamás!</h3>
    </section>
    <section id="widgets">
       <div class="widget-column">
@@ -10,7 +10,7 @@
                <picture>
                   <img src="" />
                </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
+               <h4>{{ "DASHBOARD_WIDGET_EVENTS" | translate }}</h4>
             </div>
             <div class="widget-notification">
                <span class="notification">200</span>
@@ -21,7 +21,7 @@
                <picture>
                   <img src="" />
                </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
+               <h4>{{ "DASHBOARD_WIDGET_RESULTS" | translate }}</h4>
             </div>
             <div class="widget-notification">
                <span class="notification">2</span>
@@ -32,42 +32,7 @@
                <picture>
                   <img src="" />
                </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
-      </div>
-      <div class="widget-column">
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
+               <h4>{{ "DASHBOARD_WIDGET_MESSAGES" | translate }}</h4>
             </div>
             <div class="widget-notification">
                <span class="notification">2</span>
@@ -80,7 +45,7 @@
                <picture>
                   <img src="" />
                </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
+               <h4>{{ "DASHBOARD_WIDGET_CREDITS" | translate }}</h4>
             </div>
             <div class="widget-notification">
                <span class="notification">2</span>
@@ -91,7 +56,7 @@
                <picture>
                   <img src="" />
                </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
+               <h4>{{ "DASHBOARD_WIDGET_EXAMS" | translate }}</h4>
             </div>
             <div class="widget-notification">
                <span class="notification">2</span>
@@ -102,7 +67,42 @@
                <picture>
                   <img src="" />
                </picture>
-               <h4>{{ dashboard.widget.name }}</h4>
+               <h4>{{ "DASHBOARD_WIDGET_NEWS" | translate }}</h4>
+            </div>
+            <div class="widget-notification">
+               <span class="notification">2</span>
+            </div>
+         </div>
+      </div>
+      <div class="widget-column">
+         <div class="widget">
+            <div class="widget-title">
+               <picture>
+                  <img src="" />
+               </picture>
+               <h4>{{ "DASHBOARD_WIDGET_TODO" | translate }}</h4>
+            </div>
+            <div class="widget-notification">
+               <span class="notification">2</span>
+            </div>
+         </div>
+         <div class="widget">
+            <div class="widget-title">
+               <picture>
+                  <img src="" />
+               </picture>
+               <h4>{{ "DASHBOARD_WIDGET_AVERAGES" | translate }}</h4>
+            </div>
+            <div class="widget-notification">
+               <span class="notification">2</span>
+            </div>
+         </div>
+         <div class="widget">
+            <div class="widget-title">
+               <picture>
+                  <img src="" />
+               </picture>
+               <h4>{{ "DASHBOARD_WIDGET_DEBTS" | translate }}</h4>
             </div>
             <div class="widget-notification">
                <span class="notification">2</span>

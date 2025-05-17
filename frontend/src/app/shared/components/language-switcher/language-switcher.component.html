@@ -1,7 +1,15 @@
-<div class="language-switcher">
-   <output (click)="toggleSelection()">{{ language() }}</output>
-   <div class="list">
-      <button (click)="switchLanguage('EN')">EN</button>
-      <button (click)="switchLanguage('HU')">HU</button>
-   </div>
-</div>
+<button mat-button [matMenuTriggerFor]="langMenu" class="language-button">
+   <span class="current-lang-label">{{ currentLanguage | translate }}</span>
+   <mat-icon>language</mat-icon>
+</button>
+
+<mat-menu #langMenu="matMenu" class="language-dropdown-menu">
+   <button
+      mat-menu-item
+      *ngFor="let lang of availableLanguages"
+      (click)="switchLanguage(lang.code)"
+      [class.selected-language]="lang.code === currentLanguage"
+   >
+      {{ lang.labelKey | translate }}
+   </button>
+</mat-menu>

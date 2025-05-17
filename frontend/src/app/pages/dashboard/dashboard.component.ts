@@ -1,18 +1,10 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
    selector: 'app-dashboard',
-   imports: [],
+   imports: [TranslatePipe],
    templateUrl: './dashboard.component.html',
    styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
-   dashboard = {
-      user: {
-         name: 'Adamcsik Tamás',
-      },
-      widget: {
-         name: 'widget',
-      },
-   };
-}
+export class DashboardComponent {}

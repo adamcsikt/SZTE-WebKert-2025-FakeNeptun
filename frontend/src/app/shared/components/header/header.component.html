@@ -7,7 +7,7 @@
       </a>
       <div id="menu-search-container">
          <div id="menu">
-            <span>Menu</span>
+            <span>{{ "HEADER_MENU" | translate }}</span>
             <picture>
                <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -28,11 +28,15 @@
             <picture>
                <img src="icons/search.svg" />
             </picture>
-            <input type="search" placeholder="Search in menu" id="search" />
+            <input
+               type="search"
+               placeholder="{{ 'HEADER_SEARCH_PLACEHOLDER' | translate }}"
+               id="search"
+            />
          </label>
       </div>
    </div>
    <div id="user-menu">
-      <button (click)="logout()">LogOut</button>
+      <button (click)="logout()">{{ "HEADER_LOGOUT" | translate }}</button>
    </div>
 </header>
