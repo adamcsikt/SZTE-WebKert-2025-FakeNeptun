@@ -1,17 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-
-import { environment as env } from '../../../environments/environment';
-
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
-
-interface LoginResponse {
-   user: User;
-   token: string;
-}
 
 @Injectable({
    providedIn: 'root',
@@ -63,7 +53,7 @@ export class AuthService {
             { token, user }
          );
 
-         this.logout();
+         this.clearAuthData();
          return;
       }
 
@@ -78,16 +68,27 @@ export class AuthService {
       console.log('AuthService state updated. Token stored.');
    }
 
-   logout(): void {
+   public updateCurrentUser(user: User | null): void {
+      if (user) {
+         localStorage.setItem('currentUser', JSON.stringify(user));
+         this.currentUserSubject.next(user);
+         console.log(
+            'AuthService: Current user updated in state and localStorage.'
+         );
+      } else {
+         console.warn(
+            'AuthService: updateCurrentUser called with null user. Clearing auth data.'
+         );
+         this.clearAuthData();
+      }
+   }
+
+   public clearAuthData(): void {
       localStorage.removeItem('currentUser');
       localStorage.removeItem('authToken');
-
       this.currentUserSubject.next(null);
       this.currentTokenSubject.next(null);
-
-      console.log('User logged out.');
-
-      this.router.navigate(['/login']);
+      console.log('AuthService: Authentication data cleared.');
    }
 
    private getUserFromLocalStorage(): User | null {
@@ -102,7 +103,6 @@ export class AuthService {
    }
 
    private getTokenFromLocalStorage(): string | null {
-      const token = localStorage.getItem('authToken');
       return localStorage.getItem('authToken') ?? null;
    }
 }
