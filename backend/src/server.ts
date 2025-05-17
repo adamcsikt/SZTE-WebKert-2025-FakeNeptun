@@ -9,7 +9,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-function onError(error: any) {
+function onError(error: any): void {
    if (error.syscall !== 'listen') {
       throw error;
    }
@@ -28,7 +28,12 @@ function onError(error: any) {
    }
 }
 
-function onListening() {
+function onListening(): void {
    const addr = server.address();
-   console.log(`Listening on port ${addr?.port}`);
+
+   if (typeof addr === 'string') {
+      console.log(`Listening on pipe ${addr}`);
+   } else if (addr && typeof addr === 'object') {
+      console.log(`Listening on port ${addr.port}`);
+   }
 }

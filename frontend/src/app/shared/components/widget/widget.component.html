@@ -1,0 +1,62 @@
+<mat-expansion-panel
+   class="widget-expansion-panel"
+   [expanded]="initiallyExpanded"
+>
+   <mat-expansion-panel-header>
+      <mat-panel-title>
+         <mat-icon *ngIf="iconName" class="widget-icon">{{
+            iconName
+         }}</mat-icon>
+         <span class="widget-title">{{ widgetTitleKey | translate }}</span>
+      </mat-panel-title>
+      <mat-panel-description>
+         <span *ngIf="notificationCount !== null" class="notification-badge">{{
+            notificationCount
+         }}</span>
+      </mat-panel-description>
+   </mat-expansion-panel-header>
+
+   <div class="widget-content">
+      <mat-list *ngIf="items.length > 0">
+         <mat-list-item
+            *ngFor="let item of items"
+            (click)="onItemClick(item)"
+            class="widget-list-item"
+         >
+            <mat-icon matListItemIcon *ngIf="item.icon">{{
+               item.icon
+            }}</mat-icon>
+            <div matListItemTitle>{{ item[itemDisplayProperty] }}</div>
+            <div
+               matListItemLine
+               *ngIf="itemDetailProperty && item[itemDetailProperty]"
+            >
+               <span>{{ item[itemDetailProperty] }}</span>
+            </div>
+            <div
+               matListItemMeta
+               *ngIf="itemDateProperty && item[itemDateProperty]"
+            >
+               {{ item[itemDateProperty] }}
+            </div>
+            <span
+               matListItemMeta
+               *ngIf="item.status"
+               class="item-status-badge {{ item.status | lowercase }}"
+               >{{ item.status }}</span
+            >
+         </mat-list-item>
+      </mat-list>
+
+      <p *ngIf="items.length === 0" class="no-items-message">
+         {{ "NO_ITEMS_AVAILABLE" | translate }}
+      </p>
+
+      <div *ngIf="viewAllLink && items.length > 0" class="view-all-container">
+         <a mat-button [routerLink]="viewAllLink" class="view-all-link">
+            {{ viewAllLinkTextKey || "VIEW_ALL" | translate }}
+            <mat-icon>chevron_right</mat-icon>
+         </a>
+      </div>
+   </div>
+</mat-expansion-panel>
