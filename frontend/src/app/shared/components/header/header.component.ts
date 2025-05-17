@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
-
+import { LogoutService } from '../../../core/services/logout.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
@@ -21,12 +21,13 @@ export class HeaderComponent {
    currentUser$: Observable<User | null> = this.authService.currentUser$;
 
    private notificationService = inject(NotificationService);
+   private logoutService = inject(LogoutService);
 
    @Input() visible!: boolean;
 
    logout(): void {
       console.log('HeaderComponent: Logout button clicked.');
-      this.authService.logout();
+      this.logoutService.logoutUser().subscribe();
       this.notificationService.show('success', 'Logged out successfully.');
    }
 }
