@@ -1,0 +1,23 @@
+{
+   "LOGIN_TITLE": "University of Szeged",
+   "LOGIN_SUBTITLE": "Student login",
+   "USERNAME_LABEL": "Identifier",
+   "PASSWORD_LABEL": "Password",
+   "LOGIN_BUTTON": "Login",
+   "DASHBOARD_GREETING": "Hello",
+   "DASHBOARD_WIDGET_EVENTS": "Upcoming events",
+   "DASHBOARD_WIDGET_RESULTS": "Results",
+   "DASHBOARD_WIDGET_MESSAGES": "Messages",
+   "DASHBOARD_WIDGET_CREDITS": "Fulfilled credits",
+   "DASHBOARD_WIDGET_EXAMS": "Exams",
+   "DASHBOARD_WIDGET_NEWS": "News",
+   "DASHBOARD_WIDGET_TODO": "To do",
+   "DASHBOARD_WIDGET_AVERAGES": "Averages",
+   "DASHBOARD_WIDGET_DEBTS": "Debts",
+   "HEADER_MENU": "Menu",
+   "HEADER_SEARCH_PLACEHOLDER": "Search in menu",
+   "HEADER_LOGOUT": "LogOut",
+   "FOOTER_TEXT": "Neptun Web - WebKert 2025 - Fake Neptun",
+   "LANGUAGE_EN": "EN",
+   "LANGUAGE_HU": "HU"
+}

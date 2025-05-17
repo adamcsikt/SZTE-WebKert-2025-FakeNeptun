@@ -1,0 +1,23 @@
+{
+   "LOGIN_TITLE": "Szegedi Tudományegyetem",
+   "LOGIN_SUBTITLE": "Hallgatói bejelentkezés",
+   "USERNAME_LABEL": "Azonosító",
+   "PASSWORD_LABEL": "Jelszó",
+   "LOGIN_BUTTON": "Bejelentkezés",
+   "DASHBOARD_GREETING": "Tisztelt",
+   "DASHBOARD_WIDGET_EVENTS": "Közelgő események",
+   "DASHBOARD_WIDGET_RESULTS": "Eredmények",
+   "DASHBOARD_WIDGET_MESSAGES": "Üzenetek",
+   "DASHBOARD_WIDGET_CREDITS": "Teljesített kreditek",
+   "DASHBOARD_WIDGET_EXAMS": "Vizsgák",
+   "DASHBOARD_WIDGET_NEWS": "Hírek",
+   "DASHBOARD_WIDGET_TODO": "Teendők",
+   "DASHBOARD_WIDGET_AVERAGES": "Átlagok",
+   "DASHBOARD_WIDGET_DEBTS": "Tartozások",
+   "HEADER_MENU": "Menü",
+   "HEADER_SEARCH_PLACEHOLDER": "Keresés a menüben",
+   "HEADER_LOGOUT": "Kijelentkezés",
+   "FOOTER_TEXT": "Neptun Web - WebKert 2025 - Fake Neptun",
+   "LANGUAGE_EN": "EN",
+   "LANGUAGE_HU": "HU"
+}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { FormValidatorPipe } from '../../../shared/pipes/form-validator.pipe';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginService } from '../../../core/services/login.service';
@@ -9,21 +10,22 @@ import { NotificationService } from '../../../core/services/notification.service
 import { User } from '../../../core/models/user.model';
 
 import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
    selector: 'app-login',
-   imports: [ReactiveFormsModule, MatButtonModule],
+   imports: [
+      ReactiveFormsModule,
+      MatButtonModule,
+      FormValidatorPipe,
+      NgIf,
+      TranslatePipe,
+   ],
    templateUrl: './login.component.html',
    styleUrl: './login.component.css',
 })
 export class LoginComponent {
-   LOGIN = {
-      TITLE: 'Szegedi Tudományegyetem',
-      USERNAME: 'Azonosító',
-      PASSWORD: 'Jelszó',
-      BUTTON: 'Bejelentkezés',
-   };
-
    loginForm: FormGroup = new FormGroup({
       username: new FormControl(''),
       password: new FormControl(''),
