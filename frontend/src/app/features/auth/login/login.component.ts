@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FormValidatorPipe } from '../../../shared/pipes/form-validator.pipe';
@@ -9,9 +9,10 @@ import { NotificationService } from '../../../core/services/notification.service
 
 import { User } from '../../../core/models/user.model';
 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LogoutService } from '../../../core/services/logout.service';
 
 @Component({
    selector: 'app-login',
@@ -26,6 +27,9 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
    styleUrl: './login.component.css',
 })
 export class LoginComponent {
+   private logoutService = inject(LogoutService);
+   private returnUrl!: string;
+
    loginForm: FormGroup = new FormGroup({
       username: new FormControl(''),
       password: new FormControl(''),
@@ -35,8 +39,14 @@ export class LoginComponent {
       private authService: AuthService,
       private loginService: LoginService,
       private notificationService: NotificationService,
-      private router: Router
+      private router: Router,
+      private route: ActivatedRoute
    ) {}
+
+   ngOnInit(): void {
+      this.returnUrl =
+         this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+   }
 
    LogIn() {
       if (this.loginForm.invalid) {
@@ -65,7 +75,7 @@ export class LoginComponent {
                   'Login failed: Unexpected server response.'
                );
 
-               this.authService.logout();
+               this.logoutService.logoutUser().subscribe();
             }
 
             console.log(
@@ -80,13 +90,13 @@ export class LoginComponent {
             this.notificationService.show('success', 'Login successful!');
 
             console.log('LoginComponent: Navigating to /dashboard...');
-            this.router.navigateByUrl('/dashboard');
+            this.router.navigateByUrl(this.returnUrl);
          },
          error: (e) => {
             console.error('Login failed', e);
             const message = e?.e?.message || e?.message || 'Login failed!';
             this.notificationService.show('error', message);
-            this.authService.logout();
+            this.logoutService.logoutUser().subscribe();
          },
       });
    }
