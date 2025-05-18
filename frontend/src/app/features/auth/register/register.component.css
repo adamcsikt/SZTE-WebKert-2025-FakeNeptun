@@ -48,7 +48,7 @@
 .form-grid {
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-   gap: 1rem 1.5rem; /* row-gap column-gap */
+   gap: 1rem 1.5rem;
 }
 
 mat-form-field {
@@ -77,9 +77,8 @@ button[mat-stroked-button] {
    font-weight: 500;
 }
 
-/* Styling for password hint and error messages */
 :host ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-   min-height: 1.5em; /* Ensure space for messages */
+   min-height: 1.5em;
 }
 :host ::ng-deep .mat-mdc-form-field-hint-wrapper,
 :host ::ng-deep .mat-mdc-form-field-error-wrapper {

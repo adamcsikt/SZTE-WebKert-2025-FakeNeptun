@@ -17,14 +17,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 
-import { RegisterService } from '../../../core/services/register.service'; // Create this service
+import { RegisterService } from '../../../core/services/register.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
-import { FormValidatorPipe } from '../../../shared/pipes/form-validator.pipe'; // Assuming you have this
+import { FormValidatorPipe } from '../../../shared/pipes/form-validator.pipe';
 import { User } from '../../../core/models/user.model';
 
-// Custom validator for password matching
 export function passwordsMatcher(
    control: AbstractControl
 ): ValidationErrors | null {
@@ -56,7 +55,7 @@ export function passwordsMatcher(
       FormValidatorPipe,
    ],
    templateUrl: './register.component.html',
-   styleUrls: ['./register.component.css'], // Create this CSS file
+   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
    registerForm!: FormGroup;
@@ -70,7 +69,7 @@ export class RegisterComponent implements OnInit {
    private notificationService = inject(NotificationService);
    private router = inject(Router);
 
-   genders: string[] = ['Male', 'Female', 'Other']; // Or fetch from a service/config
+   genders: string[] = ['Male', 'Female', 'Other'];
 
    ngOnInit(): void {
       this.registerForm = this.fb.group(
@@ -94,16 +93,15 @@ export class RegisterComponent implements OnInit {
             placeOfBirth: ['', Validators.required],
             citizenship: ['', Validators.required],
             gender: ['', Validators.required],
-            training: ['', Validators.required], // e.g., BSc in Computer Science
+            training: ['', Validators.required],
             startDate: [
                new Date().toISOString().split('T')[0],
                Validators.required,
-            ], // Default to today
-            // Optional fields
+            ],
             nickname: [''],
-            tajNumber: ['', [Validators.pattern(/^\d{9}$/)]], // Example pattern for 9 digits
-            taxId: ['', [Validators.pattern(/^\d{10}$/)]], // Example pattern for 10 digits
-            educationId: [''], // No specific pattern for now
+            tajNumber: ['', [Validators.pattern(/^\d{9}$/)]],
+            taxId: ['', [Validators.pattern(/^\d{10}$/)]],
+            educationId: [''],
          },
          { validators: passwordsMatcher }
       );
@@ -119,7 +117,7 @@ export class RegisterComponent implements OnInit {
             'error',
             'Please fill all required fields correctly.'
          );
-         this.registerForm.markAllAsTouched(); // Mark all fields as touched to show errors
+         this.registerForm.markAllAsTouched();
          return;
       }
       this.isLoading = true;
@@ -129,10 +127,10 @@ export class RegisterComponent implements OnInit {
          ...formValue,
          dateOfBirth: new Date(formValue.dateOfBirth)
             .toISOString()
-            .split('T')[0], // Format date
-         startDate: new Date(formValue.startDate).toISOString().split('T')[0], // Format date
+            .split('T')[0],
+         startDate: new Date(formValue.startDate).toISOString().split('T')[0],
       };
-      delete userData['confirmPassword' as keyof User]; // Remove confirmPassword before sending
+      delete userData['confirmPassword' as keyof User];
 
       this.registerService.register(userData).subscribe({
          next: (response: any) => {
