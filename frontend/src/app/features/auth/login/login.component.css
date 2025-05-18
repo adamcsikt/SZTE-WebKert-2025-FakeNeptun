@@ -4,6 +4,7 @@ header {
 
 main {
    padding-block-start: 4rem;
+   color: var(--szte-dark-blue);
 
    & .login-container {
       position: relative;
@@ -12,13 +13,14 @@ main {
 
       & form {
          display: grid;
-         gap: 1rem;
+         gap: 1.5rem;
 
          & h4 {
             margin: 0;
          }
 
          & .input-group {
+            position: relative;
             display: grid;
             border: 2px solid var(--szte-dark-blue);
             border-radius: 0.5rem;
@@ -32,6 +34,7 @@ main {
                padding: 0;
                transform: translateY(0.2em);
                font-size: 0.75rem;
+               color: inherit;
 
                &:is(:-webkit-autofill, :autofill) {
                   background-color: transparent;
@@ -58,6 +61,26 @@ main {
             &:has(input:not(:placeholder-shown), input:focus-visible) label {
                font-size: 0.55rem;
                transform: translateY(-0.9em);
+            }
+
+            & .input-error {
+               display: flex;
+               align-items: center;
+               position: absolute;
+               bottom: -1.8rem;
+               left: 0;
+               width: fit-content;
+               font-size: smaller;
+
+               &::before {
+                  position: absolute;
+                  content: "";
+                  height: 60%;
+                  aspect-ratio: 1;
+                  background-color: var(--color-warning);
+                  border-radius: 50%;
+                  transform: translateX(-120%);
+               }
             }
          }
 
@@ -96,6 +119,38 @@ main {
 
       &:has(input:user-invalid)::before {
          background-color: var(--color-error);
+      }
+
+      & .login-footer {
+         text-align: center;
+         margin-top: 0.5rem;
+
+         background-color: var(--neptun-gray);
+         border-radius: 0.5rem;
+         border: none;
+         color: var(--szte-dark-blue);
+         text-align: center;
+         width: 100%;
+         cursor: pointer;
+         font-size: medium;
+         font-weight: bold;
+
+         transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+         &:is(:hover, :focus-visible) {
+            outline: none;
+            background-color: var(--neptun-dark-gray);
+            color: var(--neptun-white);
+         }
+
+         & a {
+            display: inline-block;
+            padding-block: 0.5rem;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+         }
       }
    }
 }

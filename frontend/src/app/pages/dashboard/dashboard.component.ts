@@ -1,4 +1,3 @@
-// frontend/src/app/pages/dashboard/dashboard.component.ts
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
@@ -6,9 +5,8 @@ import { WidgetComponent } from '../../shared/components/widget/widget.component
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../core/services/notification.service';
 
-// Import MatProgressSpinnerModule
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatListModule } from '@angular/material/list'; // Keep this if you use mat-list
+import { MatListModule } from '@angular/material/list';
 
 interface DashboardItem {
    id: string | number;
@@ -23,8 +21,8 @@ interface DashboardItem {
       CommonModule,
       TranslatePipe,
       WidgetComponent,
-      MatListModule, // If used for projected content or directly
-      MatProgressSpinnerModule, // ****** ADD THIS LINE ******
+      MatListModule,
+      MatProgressSpinnerModule,
    ],
    templateUrl: './dashboard.component.html',
    styleUrls: ['./dashboard.component.css'],
