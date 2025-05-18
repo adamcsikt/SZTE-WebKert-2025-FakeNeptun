@@ -1,4 +1,3 @@
-// src/app/pages/error/error.component.ts
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
