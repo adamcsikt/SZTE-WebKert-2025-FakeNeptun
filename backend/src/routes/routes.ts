@@ -63,11 +63,11 @@ export const routes = (router: Router): Router => {
       async (req: Request, res: Response): Promise<any> => {
          try {
             const {
-               username,
-               password,
                firstName,
                lastName,
+               username,
                email /*, other fields */,
+               password,
             } = req.body;
             if (!username || !password || !firstName || !lastName || !email) {
                return res

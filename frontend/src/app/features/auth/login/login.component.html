@@ -23,6 +23,7 @@
                {{ "USERNAME_LABEL" | translate }}
             </label>
             <div
+               class="input-error"
                *ngIf="
                   loginForm.get('username')!.invalid &&
                   (loginForm.get('username')!.dirty ||
@@ -48,6 +49,7 @@
                {{ "PASSWORD_LABEL" | translate }}
             </label>
             <div
+               class="input-error"
                *ngIf="
                   loginForm.get('password')!.invalid &&
                   (loginForm.get('password')!.dirty ||
@@ -64,9 +66,7 @@
          </button>
       </form>
       <div class="login-footer">
-         <!-- <p>{{ LOGIN.FOOTER }}</p>
-         <a routerLink="/register">{{ LOGIN.REGISTER }}</a>
-         <a routerLink="/forgot-password">{{ LOGIN.FORGOT_PASSWORD }}</a> -->
+         <a [routerLink]="['/register']">{{ "LOGIN_REGISTER" | translate }}</a>
       </div>
    </div>
 </main>

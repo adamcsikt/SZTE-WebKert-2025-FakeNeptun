@@ -9,7 +9,7 @@ import { NotificationService } from '../../../core/services/notification.service
 
 import { User } from '../../../core/models/user.model';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LogoutService } from '../../../core/services/logout.service';
@@ -22,6 +22,7 @@ import { LogoutService } from '../../../core/services/logout.service';
       FormValidatorPipe,
       NgIf,
       TranslatePipe,
+      RouterLink,
    ],
    templateUrl: './login.component.html',
    styleUrl: './login.component.css',
