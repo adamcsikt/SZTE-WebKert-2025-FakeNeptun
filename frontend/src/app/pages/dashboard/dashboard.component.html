@@ -5,109 +5,118 @@
    </section>
    <section id="widgets">
       <div class="widget-column">
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_EVENTS" | translate }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">200</span>
-            </div>
-         </div>
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_RESULTS" | translate }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_MESSAGES" | translate }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_EVENTS"
+            iconName="event"
+            [items]="upcomingEvents"
+            itemDisplayProperty="name"
+            itemDetailProperty="date"
+            (itemClicked)="handleItemClick($event, 'DASHBOARD_WIDGET_EVENTS')"
+         >
+         </app-widget>
+
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_RESULTS"
+            iconName="assessment"
+            notificationCount="7"
+            [items]="results"
+            itemDisplayProperty="name"
+            itemDetailProperty="detail"
+            viewAllLink="/results"
+            viewAllLinkTextKey="VIEW_GRADES"
+            (itemClicked)="handleItemClick($event, 'DASHBOARD_WIDGET_RESULTS')"
+         >
+         </app-widget>
+
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_MESSAGES"
+            iconName="chat_bubble_outline"
+            notificationCount="77"
+            [items]="messages"
+            itemDisplayProperty="name"
+            itemDetailProperty="detail"
+            itemDateProperty="date"
+            viewAllLink="/messages"
+            viewAllLinkTextKey="ALL_MESSAGES"
+            (itemClicked)="handleItemClick($event, 'DASHBOARD_WIDGET_MESSAGES')"
+         >
+         </app-widget>
       </div>
+
       <div class="widget-column">
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_CREDITS" | translate }}</h4>
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_CREDITS"
+            iconName="school"
+         >
+            <div class="credits-widget-content">
+               <mat-progress-spinner
+                  class="credits-spinner"
+                  mode="determinate"
+                  [value]="
+                     (fulfilledCredits.current / fulfilledCredits.total) * 100
+                  "
+               >
+               </mat-progress-spinner>
+               <div class="credits-text">
+                  <strong>{{ fulfilledCredits.current }}</strong> /
+                  {{ fulfilledCredits.total }}
+               </div>
+               <div class="credits-label">
+                  {{ "CREDITS_EARNED" | translate }}
+               </div>
             </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_EXAMS" | translate }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_NEWS" | translate }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
+         </app-widget>
+
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_EXAMS"
+            iconName="edit_calendar"
+            [items]="exams"
+            (itemClicked)="handleItemClick($event, 'DASHBOARD_WIDGET_EXAMS')"
+         >
+         </app-widget>
+
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_NEWS"
+            iconName="article"
+            notificationCount="5+"
+            (itemClicked)="handleItemClick($event, 'DASHBOARD_WIDGET_NEWS')"
+         >
+         </app-widget>
       </div>
+
       <div class="widget-column">
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_TODO" | translate }}</h4>
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_TODO"
+            iconName="checklist"
+            notificationCount="17"
+            [items]="todoItems"
+            itemDisplayProperty="name"
+            itemDetailProperty="deadline"
+            viewAllLink="/todo"
+            viewAllLinkTextKey="ALL_ITEMS_TO_DO"
+            (itemClicked)="handleItemClick($event, 'DASHBOARD_WIDGET_TODO')"
+         >
+         </app-widget>
+
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_AVERAGES"
+            iconName="trending_up"
+         >
+            <div class="averages-widget-content">
+               <div class="average-value">{{ averages.cci }}</div>
+               <div>{{ "CORRECTED_CREDIT_INDEX" | translate }} (CCI)</div>
+               <button mat-button (click)="navigateTo('/averages')">
+                  {{ "MORE" | translate }}
+               </button>
             </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_AVERAGES" | translate }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
-         <div class="widget">
-            <div class="widget-title">
-               <picture>
-                  <img src="" />
-               </picture>
-               <h4>{{ "DASHBOARD_WIDGET_DEBTS" | translate }}</h4>
-            </div>
-            <div class="widget-notification">
-               <span class="notification">2</span>
-            </div>
-         </div>
+         </app-widget>
+
+         <app-widget
+            widgetTitleKey="DASHBOARD_WIDGET_DEBTS"
+            iconName="payment"
+            (itemClicked)="handleItemClick($event, 'DASHBOARD_WIDGET_DEBTS')"
+         >
+         </app-widget>
       </div>
    </section>
 </main>

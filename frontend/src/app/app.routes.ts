@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard'; // Protect route if not logged in
-import { loginGuard } from './core/guards/login.guard'; // Prevent access if already logged in
-
-import { AuthService } from './core/services/auth.service';
+import { authGuard } from './core/guards/auth.guard';
+import { loginGuard } from './core/guards/login.guard';
 
 export const routes: Routes = [
    {

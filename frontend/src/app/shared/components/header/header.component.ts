@@ -8,11 +8,12 @@ import { NotificationService } from '../../../core/services/notification.service
 import { User } from '../../../core/models/user.model';
 import { RouterLink } from '@angular/router';
 
+import { NavMenuComponent } from '../nav-menu/nav-menu.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
    selector: 'app-header',
-   imports: [RouterLink, NgIf, TranslatePipe],
+   imports: [RouterLink, NgIf, TranslatePipe, NavMenuComponent],
    templateUrl: './header.component.html',
    styleUrl: './header.component.css',
 })

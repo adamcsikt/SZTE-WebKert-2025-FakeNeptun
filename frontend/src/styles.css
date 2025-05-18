@@ -100,8 +100,11 @@
       min-height: 100%;
       display: grid;
       grid-template-columns:
-         [full-width-start] 1fr [content-start] minmax(55ch, 100ch)
-         [content-end] 1fr [full-width-end];
+         [full-width-start] minmax(1rem, 1fr) [content-start] minmax(
+            min(100%, 55ch),
+            100ch
+         )
+         [content-end] minmax(1rem, 1fr) [full-width-end];
       grid-template-rows: max-content 1fr max-content;
 
       & > * {
@@ -215,7 +218,7 @@
 @layer theme {
    :root {
       --szte-blue: rgb(20 105 206);
-      --szte-dark-blue: rgb(0 40 85);
+      --szte-dark-blue: rgb(0 55 95);
       --neptun-white: rgb(255 255 255);
       --neptun-black: rgb(0 0 0);
       --neptun-light-gray: rgb(242 243 251);
