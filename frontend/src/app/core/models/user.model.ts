@@ -40,40 +40,40 @@ export interface BankAccount {
    isDefault: boolean;
 }
 
+export interface UserPreferences {
+   // Added this from previous step, ensure it's here
+   receiveNotifications: boolean;
+   preferredContactMethod: 'email' | 'phone' | 'none';
+}
+
 export interface User {
-   _id: string; // UUID V7
-   createdAt: Date; // e.g. '2024-09-03T12:00:00Z'
+   _id: string;
+   createdAt: string;
+   updatedAt?: string;
    lastName: string;
    firstName: string;
-
-   nickname: string; // By default, the first- and last name is used as a nickname
-   profilePicture?: string; // URL to the profile picture
-   training: string; // e.g. 'BSc in Computer Science'
-   startDate: Date;
+   nickname?: string;
+   profilePicture?: string;
+   training?: string;
+   startDate: string;
    theme?: 'light' | 'dark' | 'system';
    language?: 'en' | 'hu';
-
-   dateOfBirth: Date;
+   dateOfBirth: string;
    countryOfBirth: string;
-   countyOfBirth: string;
+   countyOfBirth?: string;
    placeOfBirth: string;
    citizenship: string;
    gender: string;
-
    username: string;
-   password: string; // uuid V7
-
-   tajNumber: string;
-   taxId: string;
-   educationId: string;
-
+   password?: string;
+   tajNumber?: string;
+   taxId?: string;
+   educationId?: string;
    emails: ContactEmail[];
    addresses: ContactAddress[];
    phoneNumbers: ContactPhoneNumber[];
-
    documents: Document[];
-
-   bankAccount?: BankAccount[];
-
+   bankAccounts?: BankAccount[]; // <<<< Ensured this is plural
    websites?: Website[];
+   preferences?: UserPreferences; // <<<< Added from previous step
 }

@@ -1,1 +1,348 @@
-<p>register works!</p>
+<div class="register-page-container">
+   <header class="auth-header">
+      <img src="/images/neptun-logo.svg" alt="Neptun Logo" class="logo" />
+      <h2>{{ "REGISTER_TITLE" | translate }}</h2>
+   </header>
+
+   <main class="register-form-container">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+         <h3>{{ "REGISTER_SUBTITLE_PERSONAL" | translate }}</h3>
+         <div class="form-grid">
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "FIRST_NAME_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="firstName" required />
+               <mat-error
+                  *ngIf="
+                     f['firstName'].invalid &&
+                     (f['firstName'].dirty || f['firstName'].touched)
+                  "
+               >
+                  {{
+                     f["firstName"].errors
+                        | getFormError : ("FIRST_NAME_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "LAST_NAME_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="lastName" required />
+               <mat-error
+                  *ngIf="
+                     f['lastName'].invalid &&
+                     (f['lastName'].dirty || f['lastName'].touched)
+                  "
+               >
+                  {{
+                     f["lastName"].errors
+                        | getFormError : ("LAST_NAME_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "USERNAME_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="username" required />
+               <mat-error
+                  *ngIf="
+                     f['username'].invalid &&
+                     (f['username'].dirty || f['username'].touched)
+                  "
+               >
+                  {{
+                     f["username"].errors
+                        | getFormError : ("USERNAME_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "EMAIL_LABEL" | translate }}</mat-label>
+               <input matInput type="email" formControlName="email" required />
+               <mat-error
+                  *ngIf="
+                     f['email'].invalid &&
+                     (f['email'].dirty || f['email'].touched)
+                  "
+               >
+                  {{
+                     f["email"].errors
+                        | getFormError : ("EMAIL_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "PASSWORD_LABEL" | translate }}</mat-label>
+               <input
+                  matInput
+                  [type]="hidePassword ? 'password' : 'text'"
+                  formControlName="password"
+                  required
+               />
+               <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hidePassword = !hidePassword"
+                  type="button"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hidePassword"
+               >
+                  <mat-icon>{{
+                     hidePassword ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+               </button>
+               <mat-error
+                  *ngIf="
+                     f['password'].invalid &&
+                     (f['password'].dirty || f['password'].touched)
+                  "
+               >
+                  {{
+                     f["password"].errors
+                        | getFormError : ("PASSWORD_LABEL" | translate)
+                  }}
+               </mat-error>
+               <mat-hint>{{ "PASSWORD_HINT" | translate }}</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "CONFIRM_PASSWORD_LABEL" | translate }}</mat-label>
+               <input
+                  matInput
+                  [type]="hideConfirmPassword ? 'password' : 'text'"
+                  formControlName="confirmPassword"
+                  required
+               />
+               <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hideConfirmPassword = !hideConfirmPassword"
+                  type="button"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hideConfirmPassword"
+               >
+                  <mat-icon>{{
+                     hideConfirmPassword ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+               </button>
+               <mat-error
+                  *ngIf="registerForm.errors?.['passwordsNotMatching'] && (f['confirmPassword'].dirty || f['confirmPassword'].touched)"
+               >
+                  {{ "PASSWORDS_DONT_MATCH" | translate }}
+               </mat-error>
+            </mat-form-field>
+         </div>
+
+         <h3>{{ "REGISTER_SUBTITLE_DETAILS" | translate }}</h3>
+         <div class="form-grid">
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "DATE_OF_BIRTH_LABEL" | translate }}</mat-label>
+               <input
+                  matInput
+                  [matDatepicker]="dobPicker"
+                  formControlName="dateOfBirth"
+                  required
+               />
+               <mat-datepicker-toggle
+                  matSuffix
+                  [for]="dobPicker"
+               ></mat-datepicker-toggle>
+               <mat-datepicker #dobPicker></mat-datepicker>
+               <mat-error
+                  *ngIf="
+                     f['dateOfBirth'].invalid &&
+                     (f['dateOfBirth'].dirty || f['dateOfBirth'].touched)
+                  "
+               >
+                  {{
+                     f["dateOfBirth"].errors
+                        | getFormError : ("DATE_OF_BIRTH_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "COUNTRY_OF_BIRTH_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="countryOfBirth" required />
+               <mat-error
+                  *ngIf="
+                     f['countryOfBirth'].invalid &&
+                     (f['countryOfBirth'].dirty || f['countryOfBirth'].touched)
+                  "
+               >
+                  {{
+                     f["countryOfBirth"].errors
+                        | getFormError : ("COUNTRY_OF_BIRTH_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "PLACE_OF_BIRTH_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="placeOfBirth" required />
+               <mat-error
+                  *ngIf="
+                     f['placeOfBirth'].invalid &&
+                     (f['placeOfBirth'].dirty || f['placeOfBirth'].touched)
+                  "
+               >
+                  {{
+                     f["placeOfBirth"].errors
+                        | getFormError : ("PLACE_OF_BIRTH_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "CITIZENSHIP_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="citizenship" required />
+               <mat-error
+                  *ngIf="
+                     f['citizenship'].invalid &&
+                     (f['citizenship'].dirty || f['citizenship'].touched)
+                  "
+               >
+                  {{
+                     f["citizenship"].errors
+                        | getFormError : ("CITIZENSHIP_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "GENDER_LABEL" | translate }}</mat-label>
+               <mat-select formControlName="gender" required>
+                  <mat-option *ngFor="let gender of genders" [value]="gender">
+                     {{ gender | translate }}
+                  </mat-option>
+               </mat-select>
+               <mat-error
+                  *ngIf="
+                     f['gender'].invalid &&
+                     (f['gender'].dirty || f['gender'].touched)
+                  "
+               >
+                  {{
+                     f["gender"].errors
+                        | getFormError : ("GENDER_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "TRAINING_LABEL" | translate }}</mat-label>
+               <input
+                  matInput
+                  formControlName="training"
+                  required
+                  placeholder="e.g. BSc in Computer Science"
+               />
+               <mat-error
+                  *ngIf="
+                     f['training'].invalid &&
+                     (f['training'].dirty || f['training'].touched)
+                  "
+               >
+                  {{
+                     f["training"].errors
+                        | getFormError : ("TRAINING_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "START_DATE_LABEL" | translate }}</mat-label>
+               <input
+                  matInput
+                  [matDatepicker]="startDatePicker"
+                  formControlName="startDate"
+                  required
+               />
+               <mat-datepicker-toggle
+                  matSuffix
+                  [for]="startDatePicker"
+               ></mat-datepicker-toggle>
+               <mat-datepicker #startDatePicker></mat-datepicker>
+               <mat-error
+                  *ngIf="
+                     f['startDate'].invalid &&
+                     (f['startDate'].dirty || f['startDate'].touched)
+                  "
+               >
+                  {{
+                     f["startDate"].errors
+                        | getFormError : ("START_DATE_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+         </div>
+
+         <h3>{{ "REGISTER_SUBTITLE_OPTIONAL" | translate }}</h3>
+         <div class="form-grid">
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "NICKNAME_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="nickname" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "TAJ_NUMBER_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="tajNumber" />
+               <mat-error
+                  *ngIf="
+                     f['tajNumber'].invalid &&
+                     (f['tajNumber'].dirty || f['tajNumber'].touched)
+                  "
+               >
+                  {{
+                     f["tajNumber"].errors
+                        | getFormError : ("TAJ_NUMBER_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "TAX_ID_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="taxId" />
+               <mat-error
+                  *ngIf="
+                     f['taxId'].invalid &&
+                     (f['taxId'].dirty || f['taxId'].touched)
+                  "
+               >
+                  {{
+                     f["taxId"].errors
+                        | getFormError : ("TAX_ID_LABEL" | translate)
+                  }}
+               </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+               <mat-label>{{ "EDUCATION_ID_LABEL" | translate }}</mat-label>
+               <input matInput formControlName="educationId" />
+            </mat-form-field>
+         </div>
+
+         <div class="form-actions">
+            <button
+               mat-stroked-button
+               type="button"
+               routerLink="/login"
+               color="accent"
+            >
+               {{ "CANCEL_BUTTON" | translate }}
+            </button>
+            <button
+               mat-flat-button
+               color="primary"
+               type="submit"
+               [disabled]="isLoading || registerForm.invalid"
+            >
+               <span *ngIf="!isLoading">{{
+                  "REGISTER_BUTTON" | translate
+               }}</span>
+               <span *ngIf="isLoading"
+                  >{{ "REGISTERING_BUTTON" | translate }}...</span
+               >
+            </button>
+         </div>
+      </form>
+   </main>
+</div>

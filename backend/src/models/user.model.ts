@@ -1,79 +1,77 @@
 export interface ContactEmail {
    address: string;
-   type: string; // e.g. 'personal', 'university'
+   type: 'personal' | 'university';
    isDefault: boolean;
 }
 
 export interface ContactAddress {
    country: string;
-   county: string;
+   county?: string;
    postalCode: number;
    city: string;
    streetAddress: string;
-   type: string; // e.g. 'permanent', 'temporary'
+   type: 'permanent' | 'temporary';
 }
 
 export interface ContactPhoneNumber {
-   number: number;
+   number: number; // Consider string if it can include special chars like '+'
    isDefault: boolean;
 }
 
 export interface Website {
    url: string;
-   type?: string; // e.g. 'personal', 'university'
+   type?: 'personal' | 'university' | 'other';
 }
 
 export interface Document {
    type: string; // e.g. 'personal id', 'student id'
    identifier: string;
-   issueDate: string;
-   expirationDate: string;
+   issueDate: string; // ISO Date string e.g., '2024-05-17'
+   expirationDate: string; // ISO Date string
    mode?: string; // e.g. 'full-time'
 }
 
 export interface BankAccount {
    accountNumber: string;
    owner?: string;
-   type: string; // e.g. 'domestic', 'international'
-   bankName?: string; // e.g. 'OTP Bank', 'K&H Bank'
+   type: 'domestic' | 'international';
+   bankName?: string;
    isValid: boolean;
    isDefault: boolean;
 }
 
 export interface User {
    _id: string; // UUID V7
-   createdAt: string; // e.g. '2024-09-03T12:00:00Z'
+   createdAt: string; // ISO DateTime string e.g., '2024-09-03T12:00:00Z'
+   updatedAt?: string; // ISO DateTime string
    lastName: string;
    firstName: string;
 
-   nickname: string; // By default, the first- and last name is used as a nickname
-   profilePicture?: string; // URL to the profile picture
-   training: string; // e.g. 'BSc in Computer Science'
-   startDate: string;
+   nickname?: string;
+   profilePicture?: string; // URL
+   training?: string;
+   startDate: string; // ISO Date string
    theme?: 'light' | 'dark' | 'system';
    language?: 'en' | 'hu';
 
-   dateOfBirth: string;
+   dateOfBirth: string; // ISO Date string
    countryOfBirth: string;
-   countyOfBirth: string;
+   countyOfBirth?: string;
    placeOfBirth: string;
    citizenship: string;
    gender: string;
 
    username: string;
-   password: string; // uuid V7
+   password?: string; // Hashed password, not always sent to client
 
-   tajNumber: string;
-   taxId: string;
-   educationId: string;
+   tajNumber?: string;
+   taxId?: string;
+   educationId?: string;
 
    emails: ContactEmail[];
    addresses: ContactAddress[];
    phoneNumbers: ContactPhoneNumber[];
-
    documents: Document[];
-
    bankAccounts?: BankAccount[];
-
    websites?: Website[];
 }

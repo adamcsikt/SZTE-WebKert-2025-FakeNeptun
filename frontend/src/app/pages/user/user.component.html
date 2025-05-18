@@ -1,1 +1,84 @@
-<p>user works!</p>
+<div class="user-list-container">
+   <mat-card>
+      <mat-card-header>
+         <mat-card-title>{{
+            "USER_MANAGEMENT_TITLE" | translate
+         }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+         <div *ngIf="isLoading" class="spinner-container">
+            <mat-spinner diameter="50"></mat-spinner>
+         </div>
+
+         <div *ngIf="!isLoading && users.length === 0" class="no-users-message">
+            <p>{{ "NO_USERS_FOUND" | translate }}</p>
+         </div>
+
+         <div *ngIf="!isLoading && users.length > 0" class="table-responsive">
+            <table
+               mat-table
+               [dataSource]="users"
+               class="mat-elevation-z8 user-table"
+            >
+               <ng-container matColumnDef="username">
+                  <th mat-header-cell *matHeaderCellDef>
+                     {{ "USERNAME_LABEL" | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+               </ng-container>
+
+               <ng-container matColumnDef="firstName">
+                  <th mat-header-cell *matHeaderCellDef>
+                     {{ "FIRST_NAME_LABEL" | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
+               </ng-container>
+
+               <ng-container matColumnDef="lastName">
+                  <th mat-header-cell *matHeaderCellDef>
+                     {{ "LAST_NAME_LABEL" | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
+               </ng-container>
+
+               <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef>
+                     {{ "EMAIL_LABEL" | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let user">
+                     {{ user.emails[0]?.address || "N/A" }}
+                  </td>
+               </ng-container>
+
+               <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>
+                     {{ "ACTIONS_LABEL" | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let user">
+                     <button
+                        mat-icon-button
+                        color="primary"
+                        (click)="editUser(user._id)"
+                        [title]="'EDIT_USER_TOOLTIP' | translate"
+                     >
+                        <mat-icon>edit</mat-icon>
+                     </button>
+                     <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="deleteUser(user._id, user.username)"
+                        [title]="'DELETE_USER_TOOLTIP' | translate"
+                        *ngIf="authService.currentUserValue?._id !== user._id"
+                     >
+                        <mat-icon>delete</mat-icon>
+                     </button>
+                  </td>
+               </ng-container>
+
+               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+         </div>
+      </mat-card-content>
+   </mat-card>
+</div>
