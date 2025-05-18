@@ -1,0 +1,116 @@
+.user-list-container {
+   max-width: 1200px;
+   margin: 2rem auto;
+   padding: 2rem;
+   background-color: var(--neptun-white);
+   border-radius: 8px;
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.page-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 2rem;
+   padding-bottom: 1rem;
+   border-bottom: 1px solid var(--neptun-gray);
+}
+
+.page-header h1 {
+   margin: 0;
+   font-size: 1.8rem;
+   color: var(--szte-dark-blue);
+}
+
+.loading-indicator,
+.no-users-message {
+   text-align: center;
+   padding: 2rem;
+   color: var(--neptun-dark-gray);
+   font-style: italic;
+}
+
+.user-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-bottom: 1.5rem;
+}
+
+.user-table th,
+.user-table td {
+   padding: 0.75rem 1rem;
+   text-align: left;
+   border-bottom: 1px solid var(--neptun-gray);
+   font-size: 0.9rem;
+}
+
+.user-table th {
+   background-color: var(--neptun-light-gray);
+   color: var(--szte-dark-blue);
+   font-weight: 600;
+}
+
+.user-table tbody tr:hover {
+   background-color: rgba(20, 105, 206, 0.05);
+}
+
+.action-button {
+   background: none;
+   border: none;
+   color: var(--szte-blue);
+   cursor: pointer;
+   padding: 0.25rem;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.action-button mat-icon {
+   font-size: 1.25rem;
+}
+
+.action-button:hover {
+   color: var(--szte-dark-blue);
+}
+
+.pagination-controls {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 0.5rem;
+   margin-top: 1.5rem;
+}
+
+.pagination-button {
+   background-color: var(--neptun-light-gray);
+   border: 1px solid var(--neptun-gray);
+   color: var(--szte-dark-blue);
+   padding: 0.5rem 0.75rem;
+   border-radius: 4px;
+   cursor: pointer;
+   min-width: 36px;
+}
+
+.pagination-button:disabled {
+   opacity: 0.6;
+   cursor: not-allowed;
+}
+
+.pagination-button.active {
+   background-color: var(--szte-blue);
+   color: var(--neptun-white);
+   border-color: var(--szte-blue);
+}
+
+.pagination-button:not(:disabled):hover {
+   background-color: var(--neptun-gray);
+}
+.pagination-button.active:hover {
+   background-color: var(--szte-dark-blue);
+}
+
+.pagination-info {
+   margin-left: 1rem;
+   font-size: 0.9rem;
+   color: var(--neptun-dark-gray);
+}

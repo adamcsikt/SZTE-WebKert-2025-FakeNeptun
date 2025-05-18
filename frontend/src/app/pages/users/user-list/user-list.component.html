@@ -1,0 +1,92 @@
+<div class="user-list-container">
+   <header class="page-header">
+      <h1>{{ "USER_MANAGEMENT_TITLE" | translate }}</h1>
+   </header>
+
+   <div *ngIf="isLoading" class="loading-indicator">
+      <p>Loading users...</p>
+   </div>
+
+   <div
+      *ngIf="
+         !isLoading &&
+         (!paginatedUsersData || paginatedUsersData.users.length === 0)
+      "
+      class="no-users-message"
+   >
+      <p>{{ "NO_USERS_FOUND" | translate }}</p>
+   </div>
+
+   <table
+      *ngIf="
+         !isLoading && paginatedUsersData && paginatedUsersData.users.length > 0
+      "
+      class="user-table"
+   >
+      <thead>
+         <tr>
+            <th>{{ "USERNAME_LABEL" | translate }}</th>
+            <th>
+               {{ "FIRST_NAME_LABEL" | translate }} /
+               {{ "LAST_NAME_LABEL" | translate }}
+            </th>
+            <th>{{ "EMAIL_LABEL" | translate }}</th>
+            <th>{{ "TRAINING_LABEL" | translate }}</th>
+            <th>{{ "ACTIONS_LABEL" | translate }}</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let user of paginatedUsersData.users">
+            <td>{{ user.username }}</td>
+            <td>{{ user.firstName }} {{ user.lastName }}</td>
+            <td>{{ user.emails[0]?.address || "N/A" }}</td>
+            <td>{{ user.training || "N/A" }}</td>
+            <td>
+               <button
+                  (click)="viewUser(user._id)"
+                  class="action-button view-button"
+                  [title]="'View User Details' | translate"
+               >
+                  <mat-icon>visibility</mat-icon>
+               </button>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+
+   <div
+      *ngIf="
+         !isLoading && paginatedUsersData && paginatedUsersData.totalPages > 1
+      "
+      class="pagination-controls"
+   >
+      <button
+         (click)="prevPage()"
+         [disabled]="currentPage === 1"
+         class="pagination-button"
+      >
+         <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <ng-container *ngFor="let pageNum of pagesArray">
+         <button
+            (click)="goToPage(pageNum)"
+            class="pagination-button"
+            [class.active]="pageNum === currentPage"
+         >
+            {{ pageNum }}
+         </button>
+      </ng-container>
+      <button
+         (click)="nextPage()"
+         [disabled]="currentPage === paginatedUsersData.totalPages"
+         class="pagination-button"
+      >
+         <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+      <span class="pagination-info">
+         Page {{ paginatedUsersData.currentPage }} of
+         {{ paginatedUsersData.totalPages }} (Total:
+         {{ paginatedUsersData.totalItems }} users)
+      </span>
+   </div>
+</div>

@@ -1,0 +1,150 @@
+.user-detail-container {
+   max-width: 900px;
+   margin: 2rem auto;
+   padding: 2rem;
+}
+
+.page-header {
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+   margin-bottom: 2rem;
+   padding-bottom: 1rem;
+   border-bottom: 1px solid var(--neptun-gray);
+}
+
+.page-header h1 {
+   margin: 0;
+   font-size: 1.8rem;
+   color: var(--szte-dark-blue);
+}
+
+.back-button {
+   background: none;
+   border: 1px solid var(--neptun-gray);
+   color: var(--szte-dark-blue);
+   cursor: pointer;
+   padding: 0.5rem 1rem;
+   border-radius: 4px;
+   display: inline-flex;
+   align-items: center;
+   gap: 0.5rem;
+}
+.back-button:hover {
+   background-color: var(--neptun-light-gray);
+}
+
+.loading-indicator,
+.not-found-message {
+   text-align: center;
+   padding: 3rem;
+   color: var(--neptun-dark-gray);
+   font-size: 1.2rem;
+}
+
+.user-profile-card {
+   background-color: var(--neptun-white);
+   border-radius: 8px;
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+   padding: 2rem;
+}
+
+.profile-main-info {
+   display: flex;
+   align-items: center;
+   gap: 1.5rem;
+   margin-bottom: 2rem;
+   padding-bottom: 1.5rem;
+   border-bottom: 1px solid var(--neptun-light-gray);
+}
+
+.profile-picture-large {
+   width: 100px;
+   height: 100px;
+   border-radius: 50%;
+   object-fit: cover;
+   border: 3px solid var(--szte-blue);
+}
+
+.main-text h2 {
+   margin: 0 0 0.25rem 0;
+   font-size: 1.6rem;
+   color: var(--szte-dark-blue);
+}
+
+.username-detail {
+   color: var(--szte-blue);
+   font-weight: 500;
+   font-size: 1rem;
+   margin: 0 0 0.25rem 0;
+}
+.nickname-detail {
+   color: var(--neptun-dark-gray);
+   font-style: italic;
+   font-size: 0.9rem;
+}
+
+.profile-section {
+   margin-bottom: 2rem;
+}
+
+.profile-section h3 {
+   font-size: 1.2rem;
+   color: var(--szte-blue);
+   margin-top: 0;
+   margin-bottom: 1rem;
+   padding-bottom: 0.5rem;
+   border-bottom: 1px solid var(--neptun-gray);
+}
+
+.details-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   gap: 0.75rem 1.5rem;
+   font-size: 0.95rem;
+}
+
+.details-grid > div {
+   padding: 0.25rem 0;
+}
+
+.details-grid strong {
+   color: var(--szte-dark-blue);
+   min-width: 150px;
+   display: inline-block;
+}
+
+.address-item {
+   background-color: var(--neptun-light-gray);
+   padding: 1rem;
+   border-radius: 4px;
+   margin-bottom: 1rem;
+}
+.address-item h4 {
+   margin-top: 0;
+   margin-bottom: 0.5rem;
+   font-size: 1rem;
+   font-weight: 500;
+}
+.address-item p {
+   margin: 0.25rem 0;
+   font-size: 0.9rem;
+}
+
+.document-list {
+   list-style: none;
+   padding-left: 0;
+}
+.document-list li {
+   padding: 0.5rem 0;
+   border-bottom: 1px dashed var(--neptun-gray);
+   font-size: 0.9rem;
+}
+.document-list li:last-child {
+   border-bottom: none;
+}
+.document-dates {
+   font-size: 0.8em;
+   color: var(--neptun-dark-gray);
+   margin-left: 0.5rem;
+}

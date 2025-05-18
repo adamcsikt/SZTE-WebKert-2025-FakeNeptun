@@ -1,11 +1,28 @@
 import { Component } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { FeedbackFormComponent } from '../feedback-form/feedback-form.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
    selector: 'app-footer',
-   imports: [LanguageSwitcherComponent, TranslatePipe],
+   standalone: true,
+   imports: [
+      CommonModule,
+      LanguageSwitcherComponent,
+      TranslatePipe,
+      FeedbackFormComponent,
+      MatIconModule,
+      NgIf,
+   ],
    templateUrl: './footer.component.html',
-   styleUrl: './footer.component.css',
+   styleUrls: ['./footer.component.css'],
 })
-export class FooterComponent {}
+export class FooterComponent {
+   showFeedbackForm = false;
+
+   toggleFeedbackForm(): void {
+      this.showFeedbackForm = !this.showFeedbackForm;
+   }
+}

@@ -40,9 +40,27 @@ header {
    & #user-menu {
       display: flex;
       align-items: center;
+      gap: 0.5rem;
       padding: 0.25rem;
       background-color: var(--neptun-light-gray);
       border-radius: 0.5rem;
+      border: 2px solid var(--szte-dark-blue);
       height: 100%;
+
+      & button {
+         background-color: var(--szte-dark-blue);
+         color: var(--neptun-white);
+         border: none;
+         border-radius: 0.25rem;
+         padding: 0.5rem 1rem;
+         height: 100%;
+         cursor: pointer;
+
+         transition: background-color 0.2s ease-in-out;
+
+         &:is(:hover, :focus-visible) {
+            background-color: var(--szte-blue);
+         }
+      }
    }
 }
