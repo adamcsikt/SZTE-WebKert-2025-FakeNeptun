@@ -73,7 +73,7 @@ export interface User {
    addresses: ContactAddress[];
    phoneNumbers: ContactPhoneNumber[];
    documents: Document[];
-   bankAccounts?: BankAccount[]; // <<<< Ensured this is plural
+   bankAccounts?: BankAccount[];
    websites?: Website[];
-   preferences?: UserPreferences; // <<<< Added from previous step
+   preferences?: UserPreferences;
 }
