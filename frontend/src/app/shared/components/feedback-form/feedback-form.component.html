@@ -1,0 +1,130 @@
+<div class="feedback-form-overlay" (click)="onClose()">
+   <div class="feedback-form-container" (click)="$event.stopPropagation()">
+      <header class="form-header">
+         <h2>{{ "FOOTER_FEEDBACK_TITLE" | translate }}</h2>
+         <button
+            class="close-button"
+            (click)="onClose()"
+            [title]="'CLOSE_BUTTON' | translate"
+         >
+            <mat-icon>close</mat-icon>
+         </button>
+      </header>
+
+      <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+         <div class="form-field">
+            <label for="feedbackType">{{
+               "FEEDBACK_TYPE_LABEL" | translate
+            }}</label>
+            <select id="feedbackType" formControlName="feedbackType">
+               <option *ngFor="let type of feedbackTypes" [value]="type">
+                  {{
+                     ("FEEDBACK_TYPE_" + type | uppercase | translate) ||
+                        (type | titlecase)
+                  }}
+               </option>
+            </select>
+            <div
+               *ngIf="
+                  f['feedbackType'].invalid &&
+                  (f['feedbackType'].dirty || f['feedbackType'].touched)
+               "
+               class="input-error"
+            >
+               <small>{{
+                  f["feedbackType"].errors
+                     | getFormError : ("FEEDBACK_TYPE_LABEL" | translate)
+               }}</small>
+            </div>
+         </div>
+
+         <div class="form-field" *ngIf="authService.currentUserValue">
+            <label for="email"
+               >{{ "EMAIL_LABEL" | translate }} ({{
+                  "OPTIONAL_FIELD" | translate
+               }})</label
+            >
+            <input
+               id="email"
+               type="email"
+               formControlName="email"
+               [placeholder]="'EMAIL_PLACEHOLDER' | translate"
+            />
+            <div
+               *ngIf="
+                  f['email'].invalid && (f['email'].dirty || f['email'].touched)
+               "
+               class="input-error"
+            >
+               <small>{{
+                  f["email"].errors | getFormError : ("EMAIL_LABEL" | translate)
+               }}</small>
+            </div>
+         </div>
+
+         <div class="form-field">
+            <label for="message">{{
+               "FEEDBACK_MESSAGE_LABEL" | translate
+            }}</label>
+            <textarea
+               id="message"
+               formControlName="message"
+               rows="5"
+               [placeholder]="'FEEDBACK_MESSAGE_PLACEHOLDER' | translate"
+            ></textarea>
+            <div
+               *ngIf="
+                  f['message'].invalid &&
+                  (f['message'].dirty || f['message'].touched)
+               "
+               class="input-error"
+            >
+               <small>{{
+                  f["message"].errors
+                     | getFormError : ("FEEDBACK_MESSAGE_LABEL" | translate)
+               }}</small>
+            </div>
+         </div>
+
+         <div class="form-field rating-field">
+            <label
+               >{{ "FEEDBACK_RATING_LABEL" | translate }} ({{
+                  "OPTIONAL_FIELD" | translate
+               }})</label
+            >
+            <div class="star-rating">
+               <button
+                  type="button"
+                  *ngFor="let star of ratings"
+                  (click)="setRating(star)"
+                  [class.selected]="star <= currentRating"
+                  [title]="star + ' star' + (star > 1 ? 's' : '') | translate"
+               >
+                  <mat-icon>{{
+                     star <= currentRating ? "star" : "star_border"
+                  }}</mat-icon>
+               </button>
+            </div>
+         </div>
+
+         <div class="form-actions">
+            <button type="button" class="cancel-button" (click)="onClose()">
+               {{ "CANCEL_BUTTON" | translate }}
+            </button>
+            <button
+               type="submit"
+               class="submit-button"
+               [disabled]="isLoading || feedbackForm.invalid"
+            >
+               <mat-icon *ngIf="!isLoading">send</mat-icon>
+               <span *ngIf="!isLoading">{{
+                  "SEND_FEEDBACK_BUTTON" | translate
+               }}</span>
+               <span *ngIf="isLoading"
+                  >{{ "SENDING_FEEDBACK_BUTTON" | translate }}...</span
+               >
+            </button>
+         </div>
+      </form>
+   </div>
+</div>

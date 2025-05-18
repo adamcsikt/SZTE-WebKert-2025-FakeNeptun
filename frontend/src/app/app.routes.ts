@@ -34,27 +34,30 @@ export const routes: Routes = [
          ),
       canActivate: [authGuard],
    },
-   // {
-   //    path: 'profile',
-   //    loadComponent: () =>
-   //       import('./pages/profile/profile.component').then(
-   //          (c) => c.ProfileComponent
-   //       ),
-   //    canActivate: [authGuard],
-   // },
-   // {
-   //    path: 'users/',
-   //    loadComponent: () =>
-   //       import('./pages/user/user.component').then((c) => c.UserComponent),
-   //    canActivate: [authGuard],
-   // },
-   // {
-   //    path: 'users/:id',
-   //    loadComponent: () =>
-   //       import('./pages/user/user.component').then((c) => c.UserComponent),
-   //    canActivate: [authGuard],
-   // },
-
+   {
+      path: 'profile',
+      loadComponent: () =>
+         import('./pages/profile/profile.component').then(
+            (c) => c.ProfileComponent
+         ),
+      canActivate: [authGuard],
+   },
+   {
+      path: 'users',
+      loadComponent: () =>
+         import('./pages/users/user-list/user-list.component').then(
+            (c) => c.UserListComponent
+         ),
+      canActivate: [authGuard],
+   },
+   {
+      path: 'users/:id',
+      loadComponent: () =>
+         import('./pages/users/user-detail/user-detail.component').then(
+            (c) => c.UserDetailComponent
+         ),
+      canActivate: [authGuard],
+   },
    {
       path: '**',
       loadComponent: () =>

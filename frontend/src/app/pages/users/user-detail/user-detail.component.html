@@ -1,0 +1,140 @@
+<div class="user-detail-container">
+   <header class="page-header">
+      <button (click)="goBack()" class="back-button">
+         <mat-icon>arrow_back</mat-icon>
+         <span>{{ "ERROR_PAGE_GO_BACK" | translate }}</span>
+      </button>
+      <h1>
+         {{
+            (user
+               ? user.firstName + " " + user.lastName
+               : ("LOADING_PROFILE" | translate)
+            ) | titlecase
+         }}
+      </h1>
+   </header>
+
+   <div *ngIf="isLoading" class="loading-indicator">
+      <p>{{ "LOADING_PROFILE" | translate }}...</p>
+   </div>
+
+   <div *ngIf="!isLoading && !user" class="not-found-message">
+      <p>{{ "User details not found." | translate }}</p>
+   </div>
+
+   <div *ngIf="!isLoading && user" class="user-profile-card">
+      <div class="profile-main-info">
+         <img
+            [src]="user.profilePicture || 'assets/images/default-avatar.png'"
+            alt="Profile Picture"
+            class="profile-picture-large"
+         />
+         <div class="main-text">
+            <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+            <p class="username-detail">{{ "@" + user.username }}</p>
+            <p *ngIf="user.nickname" class="nickname-detail">
+               ({{ user.nickname }})
+            </p>
+         </div>
+      </div>
+
+      <section class="profile-section">
+         <h3>{{ "REGISTER_SUBTITLE_PERSONAL" | translate }}</h3>
+         <div class="details-grid">
+            <div>
+               <strong>{{ "EMAIL_LABEL" | translate }}:</strong>
+               {{ user.emails[0]?.address || "N/A" }}
+            </div>
+            <div>
+               <strong>{{ "PHONE_NUMBER_LABEL" | translate }}:</strong>
+               {{ user.phoneNumbers[0]?.number || "N/A" }}
+            </div>
+            <div>
+               <strong>{{ "GENDER_LABEL" | translate }}:</strong>
+               {{ user.gender | translate }}
+            </div>
+            <div>
+               <strong>{{ "DATE_OF_BIRTH_LABEL" | translate }}:</strong>
+               {{ user.dateOfBirth | date : "longDate" }}
+            </div>
+            <div>
+               <strong>{{ "PLACE_OF_BIRTH_LABEL" | translate }}:</strong>
+               {{ user.placeOfBirth }}
+            </div>
+            <div>
+               <strong>{{ "COUNTRY_OF_BIRTH_LABEL" | translate }}:</strong>
+               {{ user.countryOfBirth }}
+            </div>
+            <div *ngIf="user.countyOfBirth">
+               <strong>{{ "COUNTY_LABEL" | translate }}:</strong>
+               {{ user.countyOfBirth }}
+            </div>
+            <div>
+               <strong>{{ "CITIZENSHIP_LABEL" | translate }}:</strong>
+               {{ user.citizenship }}
+            </div>
+         </div>
+      </section>
+
+      <section class="profile-section">
+         <h3>{{ "REGISTER_SUBTITLE_DETAILS" | translate }}</h3>
+         <div class="details-grid">
+            <div>
+               <strong>{{ "TRAINING_LABEL" | translate }}:</strong>
+               {{ user.training || "N/A" }}
+            </div>
+            <div>
+               <strong>{{ "START_DATE_LABEL" | translate }}:</strong>
+               {{ user.startDate | date : "longDate" }}
+            </div>
+            <div *ngIf="user.educationId">
+               <strong>{{ "EDUCATION_ID_LABEL" | translate }}:</strong>
+               {{ user.educationId }}
+            </div>
+            <div *ngIf="user.tajNumber">
+               <strong>{{ "TAJ_NUMBER_LABEL" | translate }}:</strong>
+               {{ user.tajNumber }}
+            </div>
+            <div *ngIf="user.taxId">
+               <strong>{{ "TAX_ID_LABEL" | translate }}:</strong>
+               {{ user.taxId }}
+            </div>
+         </div>
+      </section>
+
+      <section
+         class="profile-section"
+         *ngIf="user.addresses && user.addresses.length > 0"
+      >
+         <h3>{{ "PROFILE_ADDRESSES_TITLE" | translate }}</h3>
+         <div *ngFor="let address of user.addresses" class="address-item">
+            <h4>
+               {{
+                  (address.type ? (address.type | titlecase | translate) : "") +
+                     ("Address" | translate)
+               }}
+            </h4>
+            <p>{{ address.streetAddress }}</p>
+            <p>{{ address.city }}, {{ address.postalCode }}</p>
+            <p *ngIf="address.county">{{ address.county }}</p>
+            <p>{{ address.country }}</p>
+         </div>
+      </section>
+
+      <section
+         class="profile-section"
+         *ngIf="user.documents && user.documents.length > 0"
+      >
+         <h3>{{ "Documents" | translate }}</h3>
+         <ul class="document-list">
+            <li *ngFor="let doc of user.documents">
+               <strong>{{ doc.type | titlecase }}:</strong> {{ doc.identifier }}
+               <span class="document-dates"
+                  >(Issued: {{ doc.issueDate | date }}, Expires:
+                  {{ doc.expirationDate | date }})</span
+               >
+            </li>
+         </ul>
+      </section>
+   </div>
+</div>

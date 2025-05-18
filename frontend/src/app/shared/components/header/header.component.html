@@ -20,6 +20,12 @@
       </div>
    </div>
    <div id="user-menu">
+      <button mat-flat-button color="primary" [routerLink]="['/profile']">
+         {{ "HEADER_PROFILE" | translate }}
+      </button>
+      <button mat-flat-button color="primary" [routerLink]="['/users']">
+         {{ "HEADER_USERS" | translate }}
+      </button>
       <button mat-flat-button color="primary" (click)="logout()">
          {{ "HEADER_LOGOUT" | translate }}
       </button>

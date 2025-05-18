@@ -4,13 +4,51 @@ footer {
    align-items: center;
    padding-block: 0.5rem;
    color: var(--neptun-white);
+}
 
-   & div {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5rem;
+.footer-left,
+.footer-right {
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+}
 
-      font-size: small;
-   }
+.footer-left .footer-image {
+   height: 24px;
+}
+
+.footer-left .footer-text {
+   font-size: small;
+   margin: 0;
+}
+
+.footer-right {
+   gap: 0.75rem;
+}
+
+.feedback-button {
+   background-color: transparent;
+   color: var(--neptun-white);
+   border: 1px solid var(--neptun-white);
+   padding: 0.4rem 0.8rem;
+   border-radius: 4px;
+   cursor: pointer;
+   display: inline-flex;
+   align-items: center;
+   gap: 0.4rem;
+   font-size: 0.85rem;
+   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.feedback-button mat-icon {
+   font-size: 1.1rem;
+}
+
+.feedback-button:hover {
+   background-color: var(--neptun-white);
+   color: var(--szte-dark-blue);
+}
+
+app-language-switcher {
+   display: inline-flex;
 }
