@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ErrorComponent } from './error.component';
+import { UserComponent } from './user.component';
 
-describe('ErrorComponent', () => {
-   let component: ErrorComponent;
-   let fixture: ComponentFixture<ErrorComponent>;
+describe('UserComponent', () => {
+   let component: UserComponent;
+   let fixture: ComponentFixture<UserComponent>;
 
    beforeEach(async () => {
       await TestBed.configureTestingModule({
-         imports: [ErrorComponent],
+         imports: [UserComponent],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(ErrorComponent);
+      fixture = TestBed.createComponent(UserComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
    });

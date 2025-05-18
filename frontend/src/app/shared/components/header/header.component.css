@@ -5,23 +5,13 @@ header {
 
    & #icon-menu-container {
       display: flex;
+      flex-shrink: 0;
       align-items: center;
       gap: 1rem;
 
       & #menu-search-container {
          display: flex;
          gap: 2px;
-
-         & #menu {
-            display: flex;
-            justify-content: space-between;
-            column-gap: 0.5rem;
-            background-color: var(--szte-dark-blue);
-            border-radius: 0.5rem 0.2rem 0.2rem 0.5rem;
-            padding: 0.5rem;
-            min-width: 15ch;
-            color: var(--neptun-white);
-         }
 
          & label {
             display: flex;

@@ -1,1 +1,15 @@
-<p>error works!</p>
+<main class="error-container">
+   <div class="error-content">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <h1>{{ "ERROR_PAGE_OOPS" | translate }}</h1>
+      <h3>{{ "ERROR_PAGE_NOT_FOUND_TITLE" | translate }}</h3>
+      <p>{{ "ERROR_PAGE_NOT_FOUND_MESSAGE" | translate }}</p>
+
+      <div class="error-actions">
+         <a mat-flat-button color="primary" [routerLink]="['/dashboard']">
+            <mat-icon>home</mat-icon>
+            {{ "ERROR_PAGE_GO_TO_HOMEPAGE" | translate }}
+         </a>
+      </div>
+   </div>
+</main>

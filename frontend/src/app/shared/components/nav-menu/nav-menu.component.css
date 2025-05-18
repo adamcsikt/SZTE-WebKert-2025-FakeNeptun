@@ -1,0 +1,138 @@
+:host {
+   position: relative;
+   display: inline-block;
+}
+
+.menu-trigger-button {
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+   background-color: var(--szte-dark-blue);
+   color: var(--neptun-white);
+   border-radius: 0.5rem 0.2rem 0.2rem 0.5rem;
+   padding: 0.7rem;
+   font-size: 1em;
+   font-family: "Figtree", sans-serif;
+   border: none;
+   cursor: pointer;
+}
+
+.menu-trigger-button mat-icon {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   &.chevron-icon {
+      margin-inline-start: 2rem;
+   }
+}
+
+.menu-panel {
+   position: absolute;
+   top: calc(100% + 0.25rem);
+   background-color: var(--neptun-white);
+   color: var(--szte-dark-blue);
+   font-weight: 600;
+   border-radius: 0.5rem;
+   border: 2px solid var(--szte-dark-blue);
+   box-shadow: 0 0 10px rgb(0 0 0 / 0.3);
+   z-index: 1000;
+   min-width: 250px;
+}
+
+.menu-panel ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+
+   & > li:hover {
+      background-color: var(--neptun-light-gray);
+
+      &:first-child {
+         border-radius: 0.5rem 0.5rem 0 0;
+      }
+
+      &:last-child {
+         border-radius: 0 0 0.5rem 0.5rem;
+      }
+   }
+}
+
+.menu-item-link {
+   color: inherit;
+   text-decoration: none;
+}
+
+.menu-panel ul li.menu-list-item:not(:last-child) {
+   position: relative;
+   cursor: pointer;
+   border-bottom: 1px solid var(--szte-dark-blue);
+}
+
+.menu-item-content {
+   display: flex;
+   align-items: center;
+   padding: 10px 16px;
+   gap: 12px;
+   box-sizing: border-box;
+}
+
+.menu-item-icon {
+   font-size: 20px;
+   width: 20px;
+   height: 20px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-shrink: 0;
+}
+
+.menu-item-content span {
+   flex-grow: 1;
+   font-size: 0.7em;
+   font-family: "Figtree", sans-serif;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.submenu-indicator-icon {
+   font-size: 20px;
+   margin-left: auto;
+}
+
+.submenu-panel {
+   overflow: hidden;
+   position: absolute;
+   top: 0;
+   left: calc(100% + 0.25rem);
+   background-color: var(--neptun-dark-gray);
+   color: var(--neptun-white);
+   border-radius: 0.5rem;
+   box-shadow: 3px 3px 8px rgb(0 0 0 / 0.3);
+   z-index: 1001;
+   min-width: 230px;
+   padding: 0;
+}
+
+.submenu-panel ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+}
+
+.submenu-panel ul li.submenu-list-item {
+   padding: 0.5rem 0.75rem;
+   font-size: 0.65em;
+   white-space: nowrap;
+   display: block;
+}
+
+.submenu-panel ul li.submenu-list-item:last-child {
+   border-bottom: none;
+}
+
+.submenu-panel ul li.submenu-list-item:hover {
+   background-color: var(--neptun-gray);
+   color: var(--szte-dark-blue);
+}

@@ -1,0 +1,101 @@
+<div class="nav-menu-container">
+   <button class="menu-trigger-button" (click)="toggleMainMenu($event)">
+      <mat-icon>menu</mat-icon>
+      <span>{{ "HEADER_MENU" | translate }}</span>
+      <mat-icon class="chevron-icon">
+         <ng-container *ngIf="isMainMenuOpen; else expandMoreIcon"
+            >expand_less</ng-container
+         >
+         <ng-template #expandMoreIcon>expand_more</ng-template>
+      </mat-icon>
+   </button>
+
+   <div class="menu-panel" *ngIf="isMainMenuOpen">
+      <ul>
+         <ng-container *ngFor="let item of menuItems">
+            <li
+               *ngIf="!item.isDivider"
+               class="menu-list-item"
+               [class.has-submenu]="item.children && item.children.length > 0"
+               [class.submenu-open]="
+                  item.children && openSubmenuLabelKey === item.labelKey
+               "
+            >
+               <a
+                  *ngIf="
+                     item.route && !(item.children && item.children.length > 0)
+                  "
+                  [routerLink]="item.route"
+                  class="menu-item-link"
+                  (click)="handleItemClick($event, item)"
+               >
+                  <div class="menu-item-content">
+                     <mat-icon
+                        *ngIf="item.icon && !item.isSvg"
+                        class="menu-item-icon"
+                        >{{ item.icon }}</mat-icon
+                     >
+                     <img
+                        *ngIf="item.icon && item.isSvg"
+                        [src]="item.icon"
+                        class="menu-item-icon svg-icon"
+                        [alt]="item.labelKey | translate"
+                     />
+                     <span>{{ item.labelKey | translate }}</span>
+                  </div>
+               </a>
+
+               <div
+                  *ngIf="item.children && item.children.length > 0"
+                  class="menu-item-link"
+                  (click)="handleItemClick($event, item)"
+               >
+                  <div class="menu-item-content">
+                     <mat-icon
+                        *ngIf="item.icon && !item.isSvg"
+                        class="menu-item-icon"
+                        >{{ item.icon }}</mat-icon
+                     >
+                     <img
+                        *ngIf="item.icon && item.isSvg"
+                        [src]="item.icon"
+                        class="menu-item-icon svg-icon"
+                        [alt]="item.labelKey | translate"
+                     />
+                     <span>{{ item.labelKey | translate }}</span>
+                     <mat-icon class="submenu-indicator-icon"
+                        >keyboard_arrow_right</mat-icon
+                     >
+                  </div>
+               </div>
+
+               <div
+                  class="submenu-panel"
+                  *ngIf="
+                     item.children &&
+                     item.children.length > 0 &&
+                     openSubmenuLabelKey === item.labelKey
+                  "
+               >
+                  <ul>
+                     <a
+                        *ngFor="let child of item.children"
+                        [routerLink]="child.route"
+                        (click)="handleSubItemClick($event, child)"
+                        class="menu-item-link"
+                     >
+                        <li class="submenu-list-item">
+                           <span>{{ child.labelKey | translate }}</span>
+                        </li>
+                     </a>
+                  </ul>
+               </div>
+            </li>
+
+            <li *ngIf="item.isDivider" class="menu-divider-item">
+               <mat-divider></mat-divider>
+            </li>
+         </ng-container>
+      </ul>
+   </div>
+</div>
