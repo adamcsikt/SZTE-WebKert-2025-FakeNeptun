@@ -1,7 +1,10 @@
 <main>
    <section id="banner">
       <picture></picture>
-      <h3>{{ "DASHBOARD_GREETING" | translate }} Adamcsik Tamás!</h3>
+      <h3>
+         {{ "DASHBOARD_GREETING" | translate }} {{ currentUser?.firstName }}
+         {{ currentUser?.lastName }}!
+      </h3>
    </section>
    <section id="widgets">
       <div class="widget-column">

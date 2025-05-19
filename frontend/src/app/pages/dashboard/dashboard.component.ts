@@ -4,9 +4,12 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { WidgetComponent } from '../../shared/components/widget/widget.component';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../core/services/notification.service';
+import { AuthService } from '../../core/services/auth.service';
+import { User } from '../../core/models/user.model';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
+import { Subscription } from 'rxjs';
 
 interface DashboardItem {
    id: string | number;
@@ -30,6 +33,10 @@ interface DashboardItem {
 export class DashboardComponent implements OnInit {
    private router = inject(Router);
    private notificationService = inject(NotificationService);
+   private authService = inject(AuthService);
+
+   currentUser: User | null = null;
+   private currentUserSubscription: Subscription | undefined;
 
    upcomingEvents: DashboardItem[] = [
       { id: 1, name: 'Webkert Project Deadline', date: '2025-05-30' },
@@ -92,7 +99,19 @@ export class DashboardComponent implements OnInit {
    fulfilledCredits = { current: 5, total: 180 };
    averages = { cci: 0.06 };
 
-   ngOnInit(): void {}
+   ngOnInit(): void {
+      this.currentUserSubscription = this.authService.currentUser$.subscribe(
+         (user) => {
+            this.currentUser = user;
+         }
+      );
+   }
+
+   ngOnDestroy(): void {
+      if (this.currentUserSubscription) {
+         this.currentUserSubscription.unsubscribe();
+      }
+   }
 
    handleItemClick(item: any, widgetTitleKey: string): void {
       console.log(`Item clicked in ${widgetTitleKey}:`, item);
