@@ -284,40 +284,6 @@
                <mat-label>{{ "NICKNAME_LABEL" | translate }}</mat-label>
                <input matInput formControlName="nickname" />
             </mat-form-field>
-            <mat-form-field appearance="outline">
-               <mat-label>{{ "TAJ_NUMBER_LABEL" | translate }}</mat-label>
-               <input matInput formControlName="tajNumber" />
-               <mat-error
-                  *ngIf="
-                     f['tajNumber'].invalid &&
-                     (f['tajNumber'].dirty || f['tajNumber'].touched)
-                  "
-               >
-                  {{
-                     f["tajNumber"].errors
-                        | getFormError : ("TAJ_NUMBER_LABEL" | translate)
-                  }}
-               </mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-               <mat-label>{{ "TAX_ID_LABEL" | translate }}</mat-label>
-               <input matInput formControlName="taxId" />
-               <mat-error
-                  *ngIf="
-                     f['taxId'].invalid &&
-                     (f['taxId'].dirty || f['taxId'].touched)
-                  "
-               >
-                  {{
-                     f["taxId"].errors
-                        | getFormError : ("TAX_ID_LABEL" | translate)
-                  }}
-               </mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-               <mat-label>{{ "EDUCATION_ID_LABEL" | translate }}</mat-label>
-               <input matInput formControlName="educationId" />
-            </mat-form-field>
          </div>
 
          <div class="form-actions">
