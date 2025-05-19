@@ -18,6 +18,8 @@ build/
 out/
 **/.angular/cache
 
+**.cache
+
 logs/
 *.js.map
 *.d.ts

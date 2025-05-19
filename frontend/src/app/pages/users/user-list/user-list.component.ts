@@ -3,6 +3,8 @@ import { CommonModule, NgIf, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 
+import { QueryDocumentSnapshot, DocumentData } from '@angular/fire/firestore';
+
 import {
    UserService,
    PaginatedUsers,
@@ -27,61 +29,143 @@ export class UserListComponent implements OnInit {
    currentPage = 1;
    pageSize = 20;
 
-   ngOnInit(): void {
-      this.loadUsers(this.currentPage);
+   private firstVisibleDoc: QueryDocumentSnapshot<DocumentData> | null = null;
+   private lastVisibleDoc: QueryDocumentSnapshot<DocumentData> | null = null;
+   private pageCursors: (QueryDocumentSnapshot<DocumentData> | null)[] = [null];
+
+   async ngOnInit(): Promise<void> {
+      await this.loadUsers('first');
    }
 
-   loadUsers(page: number): void {
+   async loadUsers(direction: 'first' | 'next' | 'prev'): Promise<void> {
       this.isLoading = true;
-      this.currentPage = page;
-      this.userService.getUsers(this.currentPage, this.pageSize).subscribe({
-         next: (data) => {
-            this.paginatedUsersData = data;
-            this.isLoading = false;
-         },
-         error: (err) => {
-            this.isLoading = false;
-            this.notificationService.show(
-               'error',
-               'Failed to load users: ' + (err.message || 'Unknown error')
+      let cursor: QueryDocumentSnapshot<DocumentData> | null = null;
+
+      if (direction === 'next') {
+         cursor = this.lastVisibleDoc;
+      } else if (direction === 'prev') {
+         cursor = this.pageCursors[this.currentPage - 2] || null;
+         if (this.currentPage <= 1) direction = 'first';
+      }
+
+      try {
+         const data = await this.userService.getUsers(
+            this.pageSize,
+            direction,
+            cursor
+         );
+         this.paginatedUsersData = data;
+         this.firstVisibleDoc = data.firstVisible;
+         this.lastVisibleDoc = data.lastVisible;
+
+         if (direction === 'first') {
+            this.currentPage = 1;
+            this.pageCursors = [null, data.lastVisible];
+         } else if (direction === 'next') {
+            this.currentPage++;
+            if (this.pageCursors.length <= this.currentPage) {
+               this.pageCursors.push(data.lastVisible);
+            } else {
+               this.pageCursors[this.currentPage] = data.lastVisible;
+            }
+         } else if (direction === 'prev' && this.currentPage > 1) {
+            this.currentPage--;
+         }
+         if (this.paginatedUsersData) {
+            this.paginatedUsersData.totalPages = Math.ceil(
+               this.paginatedUsersData.totalItems / this.pageSize
             );
-         },
-      });
+            this.paginatedUsersData.currentPage = this.currentPage;
+         }
+      } catch (error: any) {
+         this.notificationService.show(
+            'error',
+            'Failed to load users: ' + (error.message || 'Unknown error')
+         );
+      } finally {
+         this.isLoading = false;
+      }
    }
 
    viewUser(userId: string): void {
       this.router.navigate(['/users', userId]);
    }
 
-   nextPage(): void {
+   async nextPage(): Promise<void> {
       if (
          this.paginatedUsersData &&
+         this.lastVisibleDoc &&
          this.currentPage < this.paginatedUsersData.totalPages
       ) {
-         this.loadUsers(this.currentPage + 1);
+         await this.loadUsers('next');
       }
    }
 
-   prevPage(): void {
+   async prevPage(): Promise<void> {
       if (this.currentPage > 1) {
-         this.loadUsers(this.currentPage - 1);
+         await this.loadUsers('prev');
       }
    }
 
-   goToPage(pageNumber: number): void {
+   async goToPage(pageNumber: number): Promise<void> {
       if (
-         this.paginatedUsersData &&
-         pageNumber >= 1 &&
-         pageNumber <= this.paginatedUsersData.totalPages
-      ) {
-         this.loadUsers(pageNumber);
+         !this.paginatedUsersData ||
+         pageNumber < 1 ||
+         pageNumber > this.paginatedUsersData.totalPages
+      )
+         return;
+
+      console.warn(
+         'goToPage directly with Firestore cursors requires more advanced state management of cursors for each page. Resetting to first and then fetching to the page, or implement full cursor list.'
+      );
+      if (pageNumber === 1) {
+         await this.loadUsers('first');
+      } else if (pageNumber > this.currentPage) {
+         let navigationsNeeded = pageNumber - this.currentPage;
+         if (this.currentPage === 1 && this.pageCursors.length <= 1)
+            await this.loadUsers('first');
+         for (let i = 0; i < navigationsNeeded; i++) {
+            if (
+               this.paginatedUsersData &&
+               this.currentPage < this.paginatedUsersData.totalPages
+            ) {
+               await this.nextPage();
+            } else {
+               break;
+            }
+         }
+      } else if (pageNumber < this.currentPage) {
+         await this.loadUsers('first');
+         for (let i = 1; i < pageNumber; i++) {
+            if (
+               this.paginatedUsersData &&
+               this.currentPage < this.paginatedUsersData.totalPages
+            ) {
+               await this.nextPage();
+            } else {
+               break;
+            }
+         }
       }
+      this.currentPage = pageNumber;
+      if (this.paginatedUsersData)
+         this.paginatedUsersData.currentPage = this.currentPage;
    }
 
    get pagesArray(): number[] {
-      if (!this.paginatedUsersData) return [];
-      return Array(this.paginatedUsersData.totalPages)
-         .fill(0)
-         .map((x, i) => i + 1);
+      if (!this.paginatedUsersData || !this.paginatedUsersData.totalPages)
+         return [];
+      const pageCount = Math.min(this.paginatedUsersData.totalPages, 5);
+      const startPage = Math.max(1, this.currentPage - 2);
+      const endPage = Math.min(
+         this.paginatedUsersData.totalPages,
+         startPage + pageCount - 1
+      );
+
+      const pages: number[] = [];
+      for (let i = startPage; i <= endPage; i++) {
+         pages.push(i);
+      }
+      return pages;
    }
 }

@@ -1,14 +1,18 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, from, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { NotificationService } from './notification.service';
 import { AuthService } from './auth.service';
+import {
+   Firestore,
+   collection,
+   addDoc,
+   serverTimestamp,
+} from '@angular/fire/firestore';
 
 export interface Feedback {
    _id?: string;
-   createdAt?: string;
+   createdAt?: any;
    userId?: string;
    username?: string;
    email?: string;
@@ -22,10 +26,10 @@ export interface Feedback {
    providedIn: 'root',
 })
 export class FeedbackService {
-   private apiUrl = `${environment.apiURL}/feedback`;
-   private http = inject(HttpClient);
+   private firestore = inject(Firestore);
    private notificationService = inject(NotificationService);
    private authService = inject(AuthService);
+   private feedbacksCollection = collection(this.firestore, 'feedbacks');
 
    constructor() {}
 
@@ -38,27 +42,20 @@ export class FeedbackService {
       if (currentUser) {
          payload.userId = currentUser._id;
          payload.username = currentUser.username;
-         if (
-            !payload.email &&
-            currentUser.emails &&
-            currentUser.emails.length > 0
-         ) {
-            const defaultEmail = currentUser.emails.find((e) => e.isDefault);
-            payload.email = defaultEmail
-               ? defaultEmail.address
-               : currentUser.emails[0].address;
+         if (!payload.email && currentUser.email) {
+            payload.email = currentUser.email;
          }
       }
       payload.pageUrl = window.location.href;
+      payload.createdAt = serverTimestamp();
 
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-      return this.http.post(this.apiUrl, payload, { headers }).pipe(
-         tap((response: any) => {
+      return from(addDoc(this.feedbacksCollection, payload)).pipe(
+         tap((docRef) => {
             this.notificationService.show(
                'success',
-               response.message || 'Thank you for your feedback!'
+               'Thank you for your feedback!'
             );
+            console.log('Feedback submitted with ID: ', docRef.id);
          }),
          catchError(this.handleError.bind(this))
       );
@@ -66,13 +63,6 @@ export class FeedbackService {
 
    private handleError(error: any): Observable<never> {
       let errorMessage = 'Could not send feedback.';
-      if (error.error instanceof ErrorEvent) {
-         errorMessage = `Error: ${error.error.message}`;
-      } else if (error.status) {
-         errorMessage = `Error Code: ${error.status}\nMessage: ${
-            error.message || error.error?.message || 'Server error'
-         }`;
-      }
       console.error('Feedback service error:', error);
       this.notificationService.show('error', errorMessage);
       return throwError(() => new Error(errorMessage));

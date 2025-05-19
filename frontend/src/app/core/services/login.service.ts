@@ -1,30 +1,18 @@
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { AuthService } from './auth.service';
+import { Observable, from } from 'rxjs';
 
 @Injectable({
    providedIn: 'root',
 })
 export class LoginService {
-   constructor(private http: HttpClient) {}
+   private authService = inject(AuthService);
 
-   login(username: string, password: string): Observable<any> {
-      const headers = new HttpHeaders({
-         'Content-Type': 'application/json',
-      });
+   constructor() {}
 
-      return this.http.post(
-         `${environment.apiURL}/login`,
-         {
-            username,
-            password,
-         },
-         {
-            headers: headers,
-            withCredentials: true,
-         }
+   login(username: string, passwordInPlainText: string): Observable<void> {
+      return from(
+         this.authService.loginWithUsername(username, passwordInPlainText)
       );
    }
 }

@@ -12,9 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { User, ContactEmail } from '../../core/models/user.model';
+import { User as AppUser } from '../../core/models/user.model';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { FormValidatorPipe } from '../../shared/pipes/form-validator.pipe';
+import { take } from 'rxjs';
 
 @Component({
    selector: 'app-profile',
@@ -39,7 +40,7 @@ export class ProfileComponent implements OnInit {
    private router = inject(Router);
 
    profileForm!: FormGroup;
-   currentUser: User | null = null;
+   currentUser: AppUser | null = null;
    isLoading = false;
    isEditing = false;
 
@@ -54,54 +55,32 @@ export class ProfileComponent implements OnInit {
    }
 
    ngOnInit(): void {
-      this.authService.currentUser$.subscribe((user) => {
+      this.authService.currentUser$.pipe(take(1)).subscribe((user) => {
          if (user) {
             this.currentUser = user;
             this.patchFormWithUserData(user);
          } else {
-            this.notificationService.show(
-               'error',
-               'User data not found. Please log in.'
-            );
-            this.router.navigate(['/login']);
+            if (this.router.url.includes('/profile')) {
+               console.log(
+                  'ProfileComponent: currentUser is null. AuthGuard should redirect.'
+               );
+            }
          }
       });
    }
 
-   patchFormWithUserData(user: User): void {
-      let primaryEmail = '';
-      if (user.emails && user.emails.length > 0) {
-         const defaultEmail = user.emails.find((e) => e.isDefault);
-         primaryEmail = defaultEmail
-            ? defaultEmail.address
-            : user.emails[0].address;
-      }
-
+   patchFormWithUserData(user: AppUser): void {
       this.profileForm.patchValue({
          firstName: user.firstName,
          lastName: user.lastName,
-         email: primaryEmail,
+         email: user.email,
          nickname: user.nickname,
          profilePicture: user.profilePicture,
       });
    }
 
    get displayEmail(): string {
-      if (
-         !this.currentUser ||
-         !this.currentUser.emails ||
-         this.currentUser.emails.length === 0
-      ) {
-         return 'N/A';
-      }
-      const defaultEmail = this.currentUser.emails.find((e) => e.isDefault);
-      if (defaultEmail && defaultEmail.address) {
-         return defaultEmail.address;
-      }
-      if (this.currentUser.emails[0] && this.currentUser.emails[0].address) {
-         return this.currentUser.emails[0].address;
-      }
-      return 'N/A';
+      return this.currentUser?.email || 'N/A';
    }
 
    toggleEdit(): void {
@@ -131,64 +110,26 @@ export class ProfileComponent implements OnInit {
       this.isLoading = true;
       const formValue = this.profileForm.value;
 
-      const updatedEmails: ContactEmail[] = this.currentUser.emails
-         ? [...this.currentUser.emails]
-         : [];
-      let foundDefault = false;
-
-      if (updatedEmails.length > 0) {
-         const defaultEmailIndex = updatedEmails.findIndex((e) => e.isDefault);
-         if (defaultEmailIndex !== -1) {
-            updatedEmails[defaultEmailIndex] = {
-               ...updatedEmails[defaultEmailIndex],
-               address: formValue.email,
-            };
-            foundDefault = true;
-         } else {
-            updatedEmails[0] = {
-               ...updatedEmails[0],
-               address: formValue.email,
-               isDefault: true,
-            };
-            foundDefault = true;
-         }
-      }
-      if (!foundDefault && formValue.email) {
-         updatedEmails.forEach((e) => (e.isDefault = false));
-         updatedEmails.unshift({
-            address: formValue.email,
-            type: 'personal',
-            isDefault: true,
-         });
-      }
-
-      const updatedUserData: Partial<User> = {
+      const updatedUserData: Partial<AppUser> = {
          firstName: formValue.firstName,
          lastName: formValue.lastName,
-         nickname: formValue.nickname,
-         profilePicture: formValue.profilePicture,
-         emails: updatedEmails,
+         nickname: formValue.nickname || '',
+         profilePicture: formValue.profilePicture || '',
+         email: formValue.email,
       };
 
-      this.userService
-         .updateUser(this.currentUser._id, updatedUserData)
-         .subscribe({
-            next: (updatedUser) => {
-               this.isLoading = false;
-               this.isEditing = false;
-               this.authService.updateCurrentUser(updatedUser);
-               this.notificationService.show(
-                  'success',
-                  'Profile updated successfully!'
-               );
-            },
-            error: (err) => {
-               this.isLoading = false;
-               this.notificationService.show(
-                  'error',
-                  'Failed to update profile. ' + (err.message || '')
-               );
-            },
+      this.authService
+         .updateCurrentAppUser(updatedUserData)
+         .then(() => {
+            this.isLoading = false;
+            this.isEditing = false;
+            if (this.currentUser) {
+               this.currentUser = { ...this.currentUser, ...updatedUserData };
+            }
+         })
+         .catch((err: any) => {
+            this.isLoading = false;
+            console.error('Profile update failed in component:', err);
          });
    }
 
@@ -199,26 +140,18 @@ export class ProfileComponent implements OnInit {
       );
       if (confirmDelete) {
          this.isLoading = true;
-         this.userService.deleteUser(this.currentUser._id).subscribe({
-            next: () => {
+         this.authService
+            .deleteCurrentUserAccount()
+            .then(() => {
                this.isLoading = false;
-               this.notificationService.show(
-                  'success',
-                  'Profile deleted successfully.'
-               );
-               this.authService.clearAuthData();
-               this.router.navigate(['/login']);
-            },
-            error: (err) => {
+            })
+            .catch((err: any) => {
                this.isLoading = false;
-               this.notificationService.show(
-                  'error',
-                  'Failed to delete profile. ' + (err.message || '')
-               );
-            },
-         });
+               console.error('Profile deletion failed in component:', err);
+            });
       }
    }
+
    get f() {
       return this.profileForm.controls;
    }

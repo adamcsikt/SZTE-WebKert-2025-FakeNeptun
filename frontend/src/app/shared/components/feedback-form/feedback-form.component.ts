@@ -48,11 +48,8 @@ export class FeedbackFormComponent implements OnInit {
    ngOnInit(): void {
       const currentUser = this.authService.currentUserValue;
       let userEmail = '';
-      if (currentUser && currentUser.emails && currentUser.emails.length > 0) {
-         const defaultEmail = currentUser.emails.find((e) => e.isDefault);
-         userEmail = defaultEmail
-            ? defaultEmail.address
-            : currentUser.emails[0].address;
+      if (currentUser && currentUser.email) {
+         userEmail = currentUser.email;
       }
 
       this.feedbackForm = this.fb.group({

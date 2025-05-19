@@ -1,9 +1,3 @@
-export interface ContactEmail {
-   address: string;
-   type: string; // e.g. 'personal', 'university'
-   isDefault: boolean;
-}
-
 export interface ContactAddress {
    country: string;
    county: string;
@@ -48,6 +42,7 @@ export interface UserPreferences {
 
 export interface User {
    _id: string;
+   firebaseAuthEmail?: string;
    createdAt: string;
    updatedAt?: string;
    lastName: string;
@@ -69,7 +64,7 @@ export interface User {
    tajNumber?: string;
    taxId?: string;
    educationId?: string;
-   emails: ContactEmail[];
+   email: string;
    addresses: ContactAddress[];
    phoneNumbers: ContactPhoneNumber[];
    documents: Document[];

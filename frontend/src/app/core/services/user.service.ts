@@ -1,11 +1,25 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, from, throwError, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { User } from '../models/user.model';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
+import {
+   Firestore,
+   collection,
+   doc,
+   getDoc,
+   getDocs,
+   updateDoc,
+   deleteDoc,
+   query,
+   limit,
+   startAfter,
+   orderBy,
+   getCountFromServer,
+   DocumentData,
+   QueryDocumentSnapshot,
+} from '@angular/fire/firestore';
 
 export interface PaginatedUsers {
    users: User[];
@@ -13,98 +27,128 @@ export interface PaginatedUsers {
    currentPage: number;
    pageSize: number;
    totalPages: number;
+   firstVisible: QueryDocumentSnapshot<DocumentData> | null;
+   lastVisible: QueryDocumentSnapshot<DocumentData> | null;
 }
 
 @Injectable({
    providedIn: 'root',
 })
 export class UserService {
-   private apiUrl = `${environment.apiURL}/users`;
-   private http = inject(HttpClient);
+   private firestore = inject(Firestore);
    private authService = inject(AuthService);
    private notificationService = inject(NotificationService);
+   private usersCollection = collection(this.firestore, 'users');
 
-   private getAuthHeaders(): HttpHeaders {
-      const token = this.authService.currentTokenValue;
-      if (!token) {
+   async getUsers(
+      pageSize: number = 20,
+      pageDirection: 'next' | 'prev' | 'first' = 'first',
+      pageCursor: QueryDocumentSnapshot<DocumentData> | null = null
+   ): Promise<PaginatedUsers> {
+      if (!this.authService.isAuthenticated()) {
          this.notificationService.show(
             'error',
-            'Authentication token not found. Please log in again.'
+            'You must be logged in to view users.'
          );
-         return new HttpHeaders();
+         throw new Error('User not authenticated');
       }
-      return new HttpHeaders({
-         'Content-Type': 'application/json',
-         Authorization: `Bearer ${token}`,
-      });
-   }
 
-   getUsers(page: number = 1, limit: number = 20): Observable<PaginatedUsers> {
-      return this.http
-         .get<User[]>(this.apiUrl, { headers: this.getAuthHeaders() })
-         .pipe(
-            map((users) => {
-               const totalItems = users.length;
-               const totalPages = Math.ceil(totalItems / limit);
-               const startIndex = (page - 1) * limit;
-               const endIndex = Math.min(
-                  startIndex + limit - 1,
-                  totalItems - 1
-               );
-               const paginatedUsers = users.slice(startIndex, endIndex + 1);
+      const usersCollRef = collection(this.firestore, 'users');
+      let q;
 
-               return {
-                  users: paginatedUsers,
-                  totalItems,
-                  currentPage: page,
-                  pageSize: limit,
-                  totalPages,
-               };
-            }),
-            catchError(this.handleError.bind(this))
+      if (pageDirection === 'first') {
+         q = query(usersCollRef, orderBy('username'), limit(pageSize));
+      } else if (pageDirection === 'next' && pageCursor) {
+         q = query(
+            usersCollRef,
+            orderBy('username'),
+            startAfter(pageCursor),
+            limit(pageSize)
          );
-   }
-
-   getUserById(id: string): Observable<User> {
-      return this.http
-         .get<User>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() })
-         .pipe(catchError(this.handleError.bind(this)));
-   }
-
-   updateUser(id: string, userData: Partial<User>): Observable<User> {
-      return this.http
-         .put<{ user: User; message: string }>(
-            `${this.apiUrl}/${id}`,
-            userData,
-            { headers: this.getAuthHeaders() }
-         )
-         .pipe(
-            map((response) => response.user),
-            catchError(this.handleError.bind(this))
+      } else if (pageDirection === 'prev' && pageCursor) {
+         console.warn(
+            'Previous page with cursor is complex with Firestore general field ordering. Re-fetching first page or implement advanced cursor logic.'
          );
+         q = query(usersCollRef, orderBy('username'), limit(pageSize));
+      } else {
+         q = query(usersCollRef, orderBy('username'), limit(pageSize));
+      }
+
+      const querySnapshot = await getDocs(q);
+      const users = querySnapshot.docs.map((docSnap) => docSnap.data() as User);
+
+      const totalItemsSnapshot = await getCountFromServer(usersCollRef);
+      const totalItems = totalItemsSnapshot.data().count;
+      const totalPages = Math.ceil(totalItems / pageSize);
+
+      return {
+         users,
+         totalItems,
+         currentPage: 1,
+         pageSize,
+         totalPages,
+         firstVisible: querySnapshot.docs[0] || null,
+         lastVisible: querySnapshot.docs[querySnapshot.docs.length - 1] || null,
+      };
    }
 
-   deleteUser(id: string): Observable<any> {
-      return this.http
-         .delete(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() })
-         .pipe(catchError(this.handleError.bind(this)));
+   getUserById(id: string): Observable<User | null> {
+      if (!this.authService.isAuthenticated())
+         return throwError(() => new Error('Not authenticated'));
+      const userDocRef = doc(this.firestore, 'users', id);
+      return from(getDoc(userDocRef)).pipe(
+         map((docSnap) => {
+            if (docSnap.exists()) {
+               return docSnap.data() as User;
+            } else {
+               this.notificationService.show('error', 'User not found.');
+               return null;
+            }
+         }),
+         catchError(this.handleError.bind(this))
+      );
+   }
+
+   async adminUpdateUser(
+      userId: string,
+      userData: Partial<User>
+   ): Promise<User> {
+      if (!this.authService.isAuthenticated()) {
+         this.notificationService.show('error', 'Unauthorized.');
+         throw new Error('Unauthorized');
+      }
+      const userDocRef = doc(this.firestore, 'users', userId);
+      await updateDoc(userDocRef, userData);
+      const updatedUserDoc = await getDoc(userDocRef);
+      if (!updatedUserDoc.exists())
+         throw new Error('User disappeared after update');
+      return updatedUserDoc.data() as User;
+   }
+
+   async adminDeleteUser(userId: string): Promise<void> {
+      if (!this.authService.isAuthenticated()) {
+         this.notificationService.show('error', 'Unauthorized.');
+         throw new Error('Unauthorized');
+      }
+      const userDocRef = doc(this.firestore, 'users', userId);
+      await deleteDoc(userDocRef);
+      this.notificationService.show(
+         'success',
+         `User data for ${userId} deleted from Firestore.`
+      );
    }
 
    private handleError(error: any): Observable<never> {
-      let errorMessage = 'An unknown error occurred!';
-      if (error.error instanceof ErrorEvent) {
-         errorMessage = `Error: ${error.error.message}`;
-      } else {
-         errorMessage = `Error Code: ${error.status}\nMessage: ${
-            error.message || error.error?.message
-         }`;
+      let errorMessage = 'An unknown error occurred with User Service!';
+      if (error.message) {
+         errorMessage = error.message;
+      } else if (error.error instanceof ErrorEvent) {
+         errorMessage = `Client-side error: ${error.error.message}`;
+      } else if (error.status) {
+         errorMessage = `Server-side error: ${error.status} ${error.message}`;
       }
-      console.error(errorMessage);
-      if (this.notificationService) {
-         this.notificationService.show('error', errorMessage);
-      } else {
-         console.error('NotificationService not available in handleError');
-      }
+      console.error('UserService Error:', error);
+      this.notificationService.show('error', errorMessage);
       return throwError(() => new Error(errorMessage));
    }
 }
