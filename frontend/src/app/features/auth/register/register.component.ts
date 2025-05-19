@@ -18,11 +18,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 
 import { RegisterService } from '../../../core/services/register.service';
-import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { FormValidatorPipe } from '../../../shared/pipes/form-validator.pipe';
-import { User } from '../../../core/models/user.model';
+import { User as AppUser } from '../../../core/models/user.model';
 
 export function passwordsMatcher(
    control: AbstractControl
@@ -65,7 +64,6 @@ export class RegisterComponent implements OnInit {
 
    private fb = inject(FormBuilder);
    private registerService = inject(RegisterService);
-   private authService = inject(AuthService);
    private notificationService = inject(NotificationService);
    private router = inject(Router);
 
@@ -113,49 +111,61 @@ export class RegisterComponent implements OnInit {
 
    onSubmit(): void {
       if (this.registerForm.invalid) {
-         this.notificationService.show(
-            'error',
-            'Please fill all required fields correctly.'
-         );
-         this.registerForm.markAllAsTouched();
          return;
       }
       this.isLoading = true;
 
       const formValue = this.registerForm.value;
-      const userData: Partial<User> = {
-         ...formValue,
+      const passwordInPlainText = formValue.password;
+
+      console.log(
+         'RegisterComponent formValue:',
+         JSON.stringify(formValue, null, 2)
+      ); // debug
+
+      const userData: Partial<AppUser> = {
+         username: formValue.username,
+         email: formValue.email,
+         firstName: formValue.firstName,
+         lastName: formValue.lastName,
          dateOfBirth: new Date(formValue.dateOfBirth)
             .toISOString()
             .split('T')[0],
          startDate: new Date(formValue.startDate).toISOString().split('T')[0],
+         countryOfBirth: formValue.countryOfBirth,
+         placeOfBirth: formValue.placeOfBirth,
+         citizenship: formValue.citizenship,
+         gender: formValue.gender,
+         training: formValue.training,
+         nickname: formValue.nickname || undefined,
+         tajNumber: formValue.tajNumber || undefined,
+         taxId: formValue.taxId || undefined,
+         educationId: formValue.educationId || undefined,
       };
-      delete userData['confirmPassword' as keyof User];
 
-      this.registerService.register(userData).subscribe({
-         next: (response: any) => {
+      console.log(
+         'RegisterComponent userData to be sent:',
+         JSON.stringify(userData, null, 2)
+      );
+      console.log(
+         'RegisterComponent passwordInPlainText to be sent:',
+         passwordInPlainText
+            ? 'Exists and has length ' + passwordInPlainText.length
+            : 'MISSING or empty'
+      ); //debug
+
+      this.registerService.register(userData, passwordInPlainText).subscribe({
+         next: (registeredAppUser) => {
             this.isLoading = false;
             this.notificationService.show(
                'success',
                'Registration successful! Please log in.'
             );
-            if (response && response.token && response.user) {
-               this.authService.handleSuccessfulLogin(
-                  response.token,
-                  response.user as User
-               );
-               this.router.navigate(['/dashboard']);
-            } else {
-               this.router.navigate(['/login']);
-            }
+            this.router.navigate(['/login']);
          },
          error: (err) => {
             this.isLoading = false;
-            this.notificationService.show(
-               'error',
-               err.message || 'Registration failed. Please try again.'
-            );
-            console.error('Registration error:', err);
+            console.error('RegisterComponent: Registration error:', err);
          },
       });
    }

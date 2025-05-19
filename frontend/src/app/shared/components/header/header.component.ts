@@ -3,7 +3,6 @@ import { NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
 import { LogoutService } from '../../../core/services/logout.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { NotificationService } from '../../../core/services/notification.service';
 
 import { User } from '../../../core/models/user.model';
 import { RouterLink } from '@angular/router';
@@ -21,14 +20,12 @@ export class HeaderComponent {
    private authService = inject(AuthService);
    currentUser$: Observable<User | null> = this.authService.currentUser$;
 
-   private notificationService = inject(NotificationService);
    private logoutService = inject(LogoutService);
 
    @Input() visible!: boolean;
 
-   logout(): void {
+   async logout(): Promise<void> {
       console.log('HeaderComponent: Logout button clicked.');
-      this.logoutService.logoutUser().subscribe();
-      this.notificationService.show('success', 'Logged out successfully.');
+      await this.logoutService.logoutUser();
    }
 }
